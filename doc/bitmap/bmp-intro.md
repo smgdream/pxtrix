@@ -157,5 +157,5 @@ static inline size_t bmp_sizeof_line(int32_t wid);
 
 ## Know more
 
-- Portable Bitmap Header
-- MS Bitmap Image Format
+- [Portable Bitmap Header](https://github.com/smgdream/pxtrix/blob/master/doc/bitmap/bitmap-header.md)
+- [MS Bitmap Image Format](https://github.com/smgdream/pxtrix/blob/master/doc/bitmap/ms-bmp-format.md)

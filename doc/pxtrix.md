@@ -18,6 +18,6 @@ pxtrix的核心是image模块以及该模块中的Image图像交换类型，该�
 
 ## Know more
 
-- Image Intro
-- Rendering library
-- Other
+- [Image Intro](https://github.com/smgdream/pxtrix/blob/main/doc/image.md)
+- [Rendering library](https://github.com/smgdream/pxtrix/blob/main/doc/render.md)
+- [Other](https://github.com/smgdream/pxtrix/blob/main/doc/other.md)
