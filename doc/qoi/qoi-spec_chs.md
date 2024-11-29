@@ -1,7 +1,9 @@
-# THE QUITE OK IMAGE FORMAT [CHT]
+# QOI格式规范
+
+>THE QUITE OK IMAGE FORMAT [CHS]
 
 Specification **Version 1.0**, 2022.01.05 - qoiformat.org - Dominic Szablewski  
-Translation to chinese by Mr. Wong, Proof-read by Weniq. Version: 0.2.0 2024.11.12  
+Translation to Chinese by Mr. Wong, Proof-read by Wenqi. Version: 0.2.0 2024.11.12  
 <br>
 一个QOI文件包含一个14-byte的头，随后跟着任意数量的data "chunks"（数据"区块"），之后是一个8-byte的结束标识。  
 

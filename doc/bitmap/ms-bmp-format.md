@@ -134,4 +134,4 @@ typedef int32_t  LONG;
 ```
 
 ## Reference
-https://learn.microsoft.com/en-us/windows/win32/gdi/bitmaps
+- [Microsoft Bitmap Image Format](https://learn.microsoft.com/en-us/windows/win32/gdi/bitmaps)

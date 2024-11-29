@@ -166,5 +166,5 @@ size_t qoi_encode(Byte *iobuf, const Qoi_px_def *src, uint64_t cnt);
 <br>
 
 ## Know more
-- QOI Specification v1.0
-- QOI Specification v1.0-chs
+- [QOI Specification v1.0](https://github.com/smgdream/pxtrix/blob/main/doc/qoi/qoi-spec.md)
+- [QOI Specification v1.0[CHS]](https://github.com/smgdream/pxtrix/blob/main/doc/qoi/qoi-spec_chs.md)
