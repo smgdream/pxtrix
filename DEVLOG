@@ -1,0 +1,116 @@
+0.1.7
+
+2025-01-08
+	1.	pgm: 完善PGM模块代码
+
+
+0.1.8
+
+2025-01-10
+	1.	调整PGM模块代码
+2025-01-11
+	1.	make: 修改makefile
+	2.	doc: 调整header中的部分描述用词
+	3.	doc: 完善文档中xxx2xxx部分段落的内容
+	4.	doc: 改正文档中已知的少量错误内容
+2025-01-13
+	1.	doc: 编写有关PGM的文档
+	2.	doc: 改正文档中新发现的少量错漏内容
+2025-01-14
+	1.	编写pgm.h的注释
+	2.	doc: 修改文档中的部分内容
+	3.	fix: 修复了bswap.h中缺少的stdint头的包含!
+	4.	修改了img2pgm函数，令其可回调用户自定义的灰度化函数以计算灰度值
+	5.	doc: 修改PGM文档中有关img2pgm的段落
+	6.	doc: 修改了README
+	7.	doc: 修改文档中部分链接与引用形式
+	8.	修改了render中的部分函数名和函数实现*
+	9.	增添实用工具util.h头 (obj_literal用于创建聚合对象字面值)，并将
+		perf归为util的一部分*
+	10.	doc: 为other文档添加新内容
+2025-01-15
+	1.	doc: 编写render组件的文档*
+	2.	doc: 编写render组件中有关LUT的文档
+	3.	doc: 微调部分文档
+	4.	修改render中gray的实现，让其可以使用以用户定义的方式去计算灰度值
+	5.	修改了示例main_mamdb.c的代码
+2025-01-16
+	1.	将*_test函数纳入基本操作函数，并对相关头文件和文档进行修改*
+	2.	make: 轻易地改变c编译器后即可使用新的编译器正常编译程序（对各编译器的
+		支持更加友好）（实际工作：对各makefile进行了修改）*
+	3.	doc: 给README添加与编译相关的内容
+2025-01-17
+	1.	doc: 修正文档和注释中目前发现的错误描述
+	2.	make: 允许编译时通过V参数设置是否显示编译详细信息（实际工作：对各
+		makefile进行了修改）*
+	3.	doc: 补充README的内容
+2025-01-18
+	1.	make: 调整精简信息显示模式下的内容显示
+	2.	doc: 补充README的内容
+	3.	fix:  修复了多线程make可能产生的警告
+	4.	fix: 给各LUT包含了缺失的pixel.h头文件
+2025-01-19
+	1.	fix: 修复了Linux系统中使用tcc可能遇到的编译错误
+	2.	make: 修改makefile
+
+
+0.1.9
+
+2025-01-20
+	1.	fix: 修复编译器为tcc时img_px的x, y为浮点时的出错
+	2.	fix: 补充了image.h缺失的stddef.h
+	3.	补充协议
+	4.	添加了新的示例 (cardioid)
+	5.	修改原有示例
+	6.	make: 修改makefile
+	7.	make: 调整make执行时的信息显示
+2025-01-21
+	1.	doc: 完善文档有关obj_literal的内容
+	2.	重命名示例文件名
+	3.	doc: 调整文档
+	4.	image.h添加了img_px_c函数（用于以图像中心为原点绘制图像）
+	5.	添加轻量数学库tmath.h
+	6.	调整代码（将头文件中对tcc和非tcc处理的部分调换）
+	7.	fix: 修复了img_for_px的x_name的实参不是x时的程序错误
+	8.	修改示例的代码
+2025-01-22
+	1.	fix: 修复了使用tcc编译时img_px可能存在的问题
+	2.	添加tmath.h中的注释
+	3.	添加image.h中有关img_px_c的注释
+	4.	make: 微调makefile
+	5.	doc: 删除other文档
+	6.	doc: 编写tmath的文档
+2025-01-24
+	1.	doc: 修改DEVLOG和CHANGE的内容表述
+	2.	doc: 修改文档
+	3.	doc: 添加文档example.md
+2025-01-25
+	1.	fix: 修复makefile中的一个非致命性问题（STATIC前的一个缺失的export）
+	2.	make: 预留tcc编译基本共用参数TCC_BASE_CFLAGS
+	3.	make: 添加基本共用编译参数BASE_CFLAGS，将共享给submake
+	4.	将所有源文件编译默认优化等级调整为O2
+	5.	doc: 完善example文档
+	6.	微调代码
+2025-01-26
+	1.	fix: 修复部分示例因程序执行时参数数量错误而导致段错误的问题
+	2.	make: 将pxtrix编译为静态库（实验性）
+	3.	doc: 调整README的内容
+	4.	fix: 修复编译时可能存在的 redefinition of typedef warning
+2025-01-27
+	1.	补充有关防止Image重定义的预处理代码段落的注释
+	2.	doc: 添加防止Image重定义开发文档内容
+	3.	doc: 添加libbmp防止Image重定义的说明内容
+	4.	doc: 完善防止Image重定义的说明内容
+	5.	doc: 修改与tmath相关的部分注释和文档
+
+0.2.0
+
+2025-01-28
+	1.	doc: 修正文档
+	2.	微调代码
+	3.	doc: 修正README排版错误
+	4.	make: 添加make help
+	5.	doc: 完善README
+	6.	doc: 补充少量文档内容
+	7.	doc: 将CHANGE重命名为MINORCH
+	8.	doc: 添加CHANGES

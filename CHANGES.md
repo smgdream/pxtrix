@@ -1,0 +1,20 @@
+- 0.2.0
+	- Support for pgm (p5) image
+	- Support for color lookup table
+	- Support for image file test
+	- Support for building pxtrix as static library
+	- Enhanced render component
+	- Added tiny mathematics library - tmath
+	- Added utility component - utill
+	- Integrate file test functions (*_test) into base function set of model developement
+	- More examples
+	- Better make
+	- Bug fixes
+	- Improve documentation
+- 0.1.6
+	- Core component - image
+	- Support for bmp image
+	- Support for qoi image
+	- Simple render
+	- Time consumption analysis component
+	- Write documentation
