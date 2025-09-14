@@ -1,5 +1,15 @@
 /* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+ * Copyright (c) 2024 Smgdream
+ *
+ * Coordinate of Bmpimg
+ *
+ * y ^ 
+ *   |
+ *   |  bmp px
+ *   |
+ *   +----------> 
+ * 0             x
+ */
 
 #ifndef BMPIMG_H
 #define BMPIMG_H
@@ -9,41 +19,6 @@
 
 #define BMP_TYPE_BM (0x4d42)
 
-/* The following preprocessing directive is used to avoid the redefinition
- * of Image type.
- * 
- * Usage:
- * In the source file within libbmp, it should be define __LIBBMP_INSIDE__ before
- * including bmpimg.h. e.g.
- * 
- * #define __LIBBMP_INSIDE__
- * // ...
- * #include "bmpimg.h"
- * 
- * If the source file within libbmpb needs to include image.h also define
- * __LIBBMP_USE_IMAGE__ before including bmpimg.h. e.g.
- * 
- * #define __LIBBMP_INSIDE__
- * #define __LIBBMP_USE_IMAGE__
- * // ...
- * #include "bmpimg.h"
- * #include "image.h"
- * 
- * For the user of pxtrix, do not define __LIBBMP_USE_IMAGE__ or
- * __LIBBMP_INSIDE__ in the source files that use libbmp and/or image e.g.
- * // main.c
- * #include "image.h"
- * #include "bmpimg.h"  */
-#ifdef __LIBBMP_INSIDE__
-	#if !defined(__IMAGE_TYPE__) && !defined(__LIBBMP_USE_IMAGE__)
-		typedef struct image Image;
-	#endif
-	#ifdef __LIBBMP_USE_IMAGE__
-		#include "image.h"
-	#endif
-#else
-	#include "image.h"
-#endif
 
 /* Portable version of bitmap file header */
 typedef struct bmpfile_header_tag {
@@ -99,22 +74,14 @@ Bmpimg *bmp_read(const char *filename);
  * Return 0, or non-zero if any error occurs.  */
 int bmp_write(const Bmpimg *bmp, const char *filename);
 
-/* Convert a Bmpimg object to a Image object. Return img, or NULL on error.
- * When size of pixel buffer of img is unsuitable it will reallocate the
- * pixel buffer automatically.  */
-Image *bmp2img(const Bmpimg *bmp, Image *img);
-/* Convert a Image object to a Bmpimg object. Return bmp, or NULL on error.
- * When size of pixel buffer of img is unsuitable it will reallocate the
- * pixel buffer automatically.  */
-Bmpimg *img2bmp(const Image *img, Bmpimg *bmp);
 
 /* Print the information in bmp, to a file stream. 
  * Return non-zero on error. */
 int bmp_info(const Bmpimg *bmp, void *fileptr);
 /* Be used as a argument to create a empty Bmpimg. */
-/* Test a file is bmp file or not.
+/* Test a file is a vaild bmp file or not.
  * Returns true (non-zero) if is or false (i.e. zero) if isn't.  */
-int bmp_test(const char *filename);
+int bmp_valid(const char *filename);
 #define BMP_EMPTY 0, 0, 24
 
 /* Extension */

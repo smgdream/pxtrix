@@ -8,13 +8,13 @@
 
 /* unit of time: us */
 
-/* Reset the timer */
+/* Reset the timer.  */
 void timer_reset(void);
-/* Different of the time between prev call and this call */
-uint32_t time_step(void);
-/* The time total used after the timer start or reset */
+/* Different of the time between prev call and this call (us).  */
+uint64_t time_step(void);
+/* The time total used after the timer start or reset (us).  */
 uint64_t time_all(void);
-/* timer start */
+/* Start the timer.  */
 #define timer_start() timer_reset()
 
 #endif

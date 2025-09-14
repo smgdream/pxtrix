@@ -4,11 +4,22 @@ INCLUDE =-I $(ROOT)/include
 CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
-libpgm.a: pgm.h pgm.c pgm2img.c
+DIRNAME = libpgm
+HDR = pgm.h image.h 
+SRC = pgm.c
+DEP = $(HDR) $(SRC)
+OBJ = $(addsuffix .o, $(basename $(SRC)))
+
+
+libpgm.a: .pgm.tmp
+	@printf "%s\t%s\n" AR $(DIRNAME)/$@
+	$(Q) $(AR) $@ $(OBJ)
+
+.pgm.tmp: $(DEP)
+	@rm -f $@
 	@for c_file in $(filter %.c, $^);\
 	do\
-		printf "%s\t%s\n" CC $(basename $@)/$$c_file;\
+		printf "%s\t%s\n" CC $(DIRNAME)/$$c_file;\
 	done
-	$(Q) $(CC) $(CFLAGS) -c pgm.c pgm2img.c
-	@printf "%s\t%s\n" AR $(basename $@)/$@
-	$(Q) $(AR) $@ pgm.o pgm2img.o
+	$(Q) $(CC) $(CFLAGS) -c $(SRC)
+	@touch $@

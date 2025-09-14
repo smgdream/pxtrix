@@ -1,5 +1,15 @@
 /* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+ * Copyright (c) 2024 Smgdream
+ * 
+ * Coordinate of Image
+ *
+ * y ^ 
+ *   |
+ *   |  img px
+ *   |
+ *   +----------> 
+ * 0             x
+ */
 
 #ifndef IMAGE_H
 #define IMAGE_H
@@ -7,6 +17,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "pixel.h"
+
 
 enum color_gamut { sRGB, DCI_P3, Adobe_RGB };
 
@@ -17,7 +28,7 @@ typedef struct image {
 	uint32_t gamut;	 // color gamut
 	Px_def	*buf;	 // pixel buffer
 } Image;
-#define __IMAGE_TYPE__
+
 
 /* New a Image object. Returns pointer to it, or NULL if any error occurs.  */
 Image *img_new(uint32_t wid, uint32_t hgt, uint32_t bpp, uint32_t gamut);
@@ -28,7 +39,7 @@ Image *img_set(Image *img, uint32_t wid, uint32_t hgt, uint32_t bpp, uint32_t ga
 /* Copy a Image object from src to dest. Returns dest, or NULL if any error occurs.  */
 Image *img_copy(Image *dest, const Image *src);
 
-/* img_px using define in tcc, or inline function in other compiler */
+/* img_px defined as macro in tcc, or inline function in other compiler */
 /* Get the pixel at (x, y) from img,
  * return the pointer to it, or NULL if some error occurs.  */
 #ifndef __TINYC__
@@ -65,5 +76,14 @@ Image *img_copy(Image *dest, const Image *src);
 		(uint32_t) ((x) + (img)->width / 2), \
 		(uint32_t) ((y) + (img)->height / 2) \
 	)
+
+/* Px_def *img_px_v2(const Image *img, Vec2 vec) */
+#define img_px_v2(img, vec) ( \
+	img_px((img), (uint32_t) (vec).x, (uint32_t) (vec).y) \
+)
+
+/* Print the information of specific Image object to a file stream.
+ * Returns 0, or non-zero on error.  */
+int img_info(const Image *img, void *fileptr);
 
 #endif

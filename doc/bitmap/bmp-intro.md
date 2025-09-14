@@ -2,7 +2,7 @@
 
 bmp模块用于对Microsoft Bitmap Image文件进行处理，如：bmp文件IO、与Image图像类型相互转换。该模块定义了一种`Bmpimg`图像类型用于存储bmp文件的数据，还定义了一系列用于操作Bmpimg类型的操作函数。
 
-若要使用bmp模块，需要包含`bmpimg.h`头文件，并要编译相关的C语言源文件。
+若要使用bmp模块，需要包含`bmpimg.h`头文件，并要编译相关的C语言源文件或链接相关库。
 
 ## Bitmap Image像素排列方式
 ```
@@ -27,8 +27,9 @@ typedef struct bmpimg {
 } Bmpimg;
 ```
 ```c
+/* bmpimg.h */
+
 typedef struct bmp_px_rgb24 {
-	/* bmpimg.h */
 	uint8_t b; // blue
 	uint8_t g; // green
 	uint8_t r; // red
@@ -43,36 +44,22 @@ typedef struct bmp_px_rgb24 {
 
 /* New a Bmpimg object */
 Bmpimg *bmp_new(int32_t wid, int32_t hgt, uint16_t bpp);
-
 /* Free a Bmpimg object */
 int bmp_free(Bmpimg *bmp);
 
 /* Read a bmp file and create a Bmpimg for it */
 Bmpimg *bmp_read(const char *filename);
-
 /* Write the bmp to a bmp file */
 int bmp_write(const Bmpimg *bmp, const char *filename);
 
-/* Convert a Bmpimg to a Image */
-Image *bmp2img(const Bmpimg *bmp, Image *img);
-
-/* Convert a Image to a Bmpimg */
-Bmpimg *img2bmp(const Image *img, Bmpimg *bmp);
-
 /* Print the info of bmp to a file stream */
 int bmp_info(const Bmpimg *bmp, void *fileptr);
-
 /* Test a file is bmp file or not */
-int bmp_test(const char *filename);
+int bmp_valid(const char *filename);
 
 /* Be used to new a empty bmpimg object as an argument */
-macro: BMP_EMPTY
-```
+#define BMP_EMPTY 0, 0, 24
 
-<br>
-
-```c
-/* bmpimg.h */
 /* Other function */
 
 /* Reconfigure the Bmpimg object */
@@ -114,27 +101,15 @@ int bmp_write(const Bmpimg *bmp, const char *filename);
 <br>
 
 ```c
-Image *bmp2img(const Bmpimg *bmp, Image *img);
-```
-`bmp2img`函数将`Bmpimg`对象转换为`Image`对象，如果`Image`对象的像素缓冲区大小不合适，则重新调整像素缓冲区大小（像素缓冲区的地址可能会发生变化）。返回img，若出错则返回NULL.  
-<br>
-
-```c
-Bmpimg *img2bmp(const Image *img, Bmpimg *bmp);
-```
-`img2bmp`函数将`Image`对象转换为`Bmpimg`对象，如果`Bmpimg`对象的像素缓冲区大小不合适，则重新调整像素缓冲区大小（像素缓冲区的地址可能会发生变化）。返回bmp，若出错则返回NULL.  
-<br>
-
-```c
 int bmp_info(const Bmpimg *bmp, void *fileptr);
 ```
 `bmp_info`函数将bmp的信息输出到文件流fileptr中。出错则返回非0值。  
 <br>
 
-```C
-int bmp_test(const char *filename);
+```c
+int bmp_valid(const char *filename);
 ```
-`bmp_test`函数用于测试文件(`filename`)是否为bmp文件，是则返回真（非0值）否则返回假(0)。  
+`bmp_test`函数用于测试文件(`filename`)是否为有效的bmp文件，是则返回真（非0值）否则返回假(0)。  
 
 
 #### 其它函数
@@ -161,15 +136,9 @@ static inline size_t bmp_sizeof_line(int32_t wid);
 
 ### 空Bmpimg对象
 
-可对空Bmpimg对象进行的操作的函数是受限的，其合法操作函数有: `bmp_free`, `img2bmp`, `bmp_info`, `bmp_set`以及其它用户自己设计的合理合法的操作函数。
-
-### 用于防止Image重定义的宏
-为了防止重新Image类型在部分语境下出现重复定义的情况，实现引进了两个宏 `__LIBBMP_INSIDE__` 和 `__LIBBMP_USE_IMAGE__`。
-
-对于普通的libbmp用户来说，以上两个宏是无关紧要的，在源文件中直接包含bmpimg.h即可，无须（请勿）定义以上宏。  
-对于libbmp的开发人员，如果libbmp中的源文件包含bmpimg.h，必须在 `#include "bmpimg.h"` 之前定义 `__LIBBMP_INSIDE__` 。如果该源文件还包含image.h，则还需要在 `#include "bmpimg.h"` 之前定义`__LIBBMP_USE_IMAGE__`。
+可对空Bmpimg对象进行的操作的函数是受限的，其合法操作函数有: `bmp_free`, `img2bmp`, `bmp_info`, `bmp_set`以及其它用户自己设计的合理合法的操作函数。  
 
 ## Know more
 
-- [Portable Bitmap Header](./bitmap-header.md)
-- [MS Bitmap Image Format](./ms-bmp-format.md)
+- [Portable Bitmap Header](bitmap-header.md)
+- [Microsoft Bitmap Image Format](ms-bmp-format.md)

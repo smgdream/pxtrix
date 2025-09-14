@@ -5,12 +5,12 @@ Translation to Chinese by Smgdream, Proof-read by Wenqi. Version: 0.2.2 2025.01.
 <br>
 一个QOI文件包含一个14-byte的头，随后跟着任意数量的data "chunks"（数据"区块"），之后是一个8-byte的结束标识。  
 
-```C
+```
 qoi_header {
 	char	 magic[4];	 // 幻数字节"qoif"
 	uint32_t width;		 // 图像宽度像素(大端)
 	uint32_t height;	 // 图象高度像素(大端)
-	uint8_t	 channels;	 // 3 = RGB, 4 =RGBA
+	uint8_t	 channels;	 // 3 = RGB, 4 = RGBA
 	uint8_t	 colorspace; // 0 = sRGB附带线性的alpha通道
 						 // 1 = 所有通道皆是线性
 };
@@ -29,7 +29,7 @@ colorspace和channels字段仅提供信息。它们不会改变data chunks的编
 各色彩通道假设为未预乘alpha通道("un-permultiplied alpha").  
 
 编码器和解码器维护一个内容可变数组`array[64]`(全0初始化)，其元素为先前遇见的像素值。这些被编码器和解码器所见的像素将会存进该数组中，其位置根据hash函数通过颜色值计算而得。在编码器中，如果在索引中的像素值匹配到当前像素，这个索引位置将会作为QOI_OP_INDEX写入到stream中。获取索引值的hash函数如下：  
-```C
+```
 	index_position = (r * 3 + g * 5 + b * 7 + a * 11) % 64;
 ```
 
@@ -118,7 +118,7 @@ colorspace和channels字段仅提供信息。它们不会改变data chunks的编
 
 绿色通道用于指示常规的改变方向(即像素整体的改变趋势)并被编码为6-bit的数据。红色和蓝色通道(dr和db)基于它们与绿色通道差值的差异。即：
 
-```C
+```
 	dr_dg = (cur_px.r - prev_px.r) - (cur_px.g - prev_px.g)
 	db_dg = (cur_px.b - prev_px.b) - (cur_px.g - prev_px.g)
 ```

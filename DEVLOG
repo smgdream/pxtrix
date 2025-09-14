@@ -114,3 +114,224 @@
 	6.	doc: 补充少量文档内容
 	7.	doc: 将CHANGE重命名为MINORCH
 	8.	doc: 添加CHANGES
+
+0.2.1
+
+2025-01-29
+	1.	doc: 微调README
+	2.	doc: pxtrix.md添加到dev-intro的链接
+	3.	fix: 调整make help令其正确显示
+2025-01-30
+	1.	doc: 微调文档
+2025-01-31
+	1.	fix: 修复在开发中定义了`__LIB*_INSIDE__`又包含了有关头文件还不小心包含了image.h所造成的重定义问题
+	2.	fix: 调整了一些不规范的代码。（虽然可以求得正确的结果）
+	3.	对fbdev的初步支持
+2025-02-01
+	1.	完善fbdev模块
+	2.	tmath二维向量组件开发
+2025-02-02
+	1.	fix: 添加pgm_test缺少的fclose
+	2.	完善fbdev模块
+	3.	改正低级错误
+	4.	tmath二维向量组件开发
+	5.	tmath添加了一次和二次贝塞尔曲线函数
+2025-02-03
+	1.	image添加了img_px_v2
+	2.	贝塞尔测试示例(bezier)
+	3.	tmath添加了三次贝塞尔曲线函数
+	4.	tmath添加了n次贝塞尔曲线函数、阶乘和二项式系数函数
+	5.	fix: 修复fbdev的bug
+	6.	改进fbdev
+2025-02-04
+	1.	fix: 解决了fbdev存在的残留临时文件
+	2.	fix: 补充fb_dev_info.c缺失的__LIBFBDEV_INSIDE__定义
+	3.	添加libca（character art aka ASCII Art）
+2025-02-06
+	1.	fix: 修复ca_px2cart因i类型错误（uint16_t太小了）而导致的字符画显示出错
+	2.	编写libca的ca_set
+	3.	调整libca的代码
+2025-02-07
+	1.	调整libca的实现
+	2.	render添加了缩放(scale)功能
+	3.	img2fb当fb为空白对象时的错误返回
+	4.	fix: 对pgm2img和img2pgm的被转换(src)对象的是否为空白对象的检测和处理
+2025-02-08
+	1.	bmp_test添加了对于非常规bmp文件的检测
+2025-02-09
+	1.	make: 将pxtrix编译为linux so共享库（实验性）
+	2.	make: 调整makefile
+2025-02-10
+	1.	make: 调整makefile
+	2.	研究将pxtrix编译为win dll动态库
+	3.	将各模块中的xxx2xxx分离出来汇聚到一个新模块中(lib2img)
+		取消了__LIB*_INSIDE__和__LIB*_USE_IMAGE__宏
+2025-02-11
+	1.	make: 调整将pxtrix编译为linux so共享库的实现
+	2.	make: 支持将pxtrix编译为win dll动态库（实验性）（不建议使用）
+2025-02-12
+	1.	make: 解决因为makefile目标与依赖之间的问题导致没clean但每次make都重新生成所有文件的问题
+	2.	对chart.c中的代码进行调整
+	3.	doc: 删减文档中有关__LIB*_INSIDE__宏和__LIB*_USE_IMAGE__宏的内容
+2025-02-13
+	1.	重命名tmath的部分数学常量宏 (E->NC: Natural constant, GOLDEN->GOLD)
+	2.	doc: 调整补充文档
+2025-02-14
+	1.	微调render中bin的代码
+	2.	删除tmath中的vec2_cpro函数
+2025-02-15
+	1.	doc: 微调文档
+	2.	为ca_write和__ca_px2cart添加rate参数用于调整图像宽的缩放使得字符画在
+		终端上尽可能准确显示
+	3.	调整__ca_iobuf_size以提高易读性，并避免ca_write和__ca_px2cart的rate
+		范围在(1, 2]时出现崩溃的情况
+	4.	doc: dev-intro更新至0.2.1
+	5.	make: 将编译标识文件c.tmp重命名为.c.tmp
+2025-02-18
+	1.	移除示例r.c并修改相应文档内容
+	2.	添加了一些与时间有关的宏到util.h中
+2025-02-19
+	1.	给所有example补上了pic2img.h
+	2.	删除示例中的部分被注释的代码行
+	3.	将mandb_color.c的实现改为单线程
+	4.	微调部分示例的代码
+	5.	fbdev添加了对3000x2000的fb帧数据文件的支持
+	6.	将各模块用于文件测试的函数*_test重命名为*_valid并修改相关的文档、注释及代码
+	7.	编写fbdev的注释
+	8.	make: 调整对于win的动态库编译
+	9.	fix: 修复不make cleanall再次make lib/so_lib因文件夹已存在造成的编译中断错误
+	10.	make: 调整make lib/so_lib 生成的USAGE文件的格式及内容
+	11.	fix: fb_valid当framebuffer设备/文件无效却执行fclose的问题（不该出现的fclose）
+2025-02-20
+	1.	doc: 调整qoi-spec.md的内容
+	2.	新增pxtrix编译为静态库时使用说明文档(USAGE)的生成
+	3.	fix: make lib/so_lib将perf.c也复制到目标目录(解决了缺少函数定义的报错)
+	4.	make: make lib/so_lib时输出有关生成USAGE的构建信息
+	5.	make: 将pxtrix编译为库时复制LICENSE到目标目录
+2025-02-23
+	1.	将luts中的lut文件的文件名从clr_lut_*.lut改为lut_*.h, 并修改有关的文档及代码。
+	2.	编写chart的注释
+	3.	修改chart中一些过时的注释
+	4.	修改用于辅助编译的临时文件名.c.tmp为.*.tmp, 以便于显示有用的编译信息。
+	5.	调整fbdev的代码
+2025-02-25
+	1.	微调bmpimg.c
+	2.	补充chart.h中的注释
+	3.	doc: 编写fbdev的文档
+2025-02-26
+	1.	补充pic2img.h中的注释
+	2.	doc: 完善fbdev-intro的文档
+	3.	doc: 编写Chart的文档
+2025-02-27
+	1.	doc: 将各文档中xxx2xxx的内容移到新的文档pic2img.md中
+	2.	doc: 调整各文档的内容
+	3.	补充render.h的注释
+	4.	doc: 补充render的文档
+	5.	微调chart.c的代码
+	6.	将tmath的bc函数重命名为bin_coe并添加注释修改相关代码
+2025-02-28
+	1.	将tmath中的vec2_dpro重命名为vec2_spro并修改有关注释
+	2.	添加tmath中的注释
+	3.	doc: 完善tmath文档
+	4.	为新的文件补充协议说明
+	5.	doc: 调整部分文档
+	6.	微调readme内容及makefile
+2025-03-01
+	1.	补充部分文件的协议及信息
+	2.	微调readme
+	3.	为各组件添加有关图像像素排列坐标系的注释
+	4.	doc: 微调pxtrix.md
+	5.	doc: 修改image.md中的部分过时内容
+	6.	doc: 修订部分文档
+	7.	fix: 修复部分版本会出现的共享库文件名问题
+	8.	生成库时将VERSION复制过去
+
+
+0.2.2
+
+2025-03-04
+	1.	将chart.c中的ch_list里的%改正为正确的转义形式%%
+	2.	fix: 修复expamle中bezier绘制时间计算包含了输入数据耗时的问题
+2025-03-05
+	1.	make: 修改count令其只统计.c, .h和makefiel源代码的数据（不包含build和luts）
+	2.	fix: 修复expamle的bezier中的scanf（过时）转换说明错误
+	3.	调整render中的scale函数的参数顺序并在render.h中添加该函数的声明和注释
+		以及补充有关的文档内容
+	4.	微调readme
+	5.	修改make help使其更加实用
+	6.	给与mandelbrot有关的example补充注释并修改文档
+2025-03-13
+	1.	调整lut头文件中的头文件保护宏名(CLR_LUT_* -> LUT_*_H)
+	2.	doc: 修订lut文档
+2025-03-15
+	1.	render添加图像反转（底片）函数invert
+	2.	render添加图像重叠拼接函数cat
+	3.	example添加示例invert.c
+	4.	example添加示例cat.c
+	5.	微调image.h的部分注释
+	6.	render修改scale的接口、形式与实现
+	7.	render添加图像裁剪函数crop
+	8.	example新的test.c（内容完全不同）
+	9.	image添加了用于输出Image对象信息(matedata)的img_info函数并添加有关注释
+	10.	doc: 调整example文档有关test.c的内容
+	11.	doc: 调整render文档有关scale的内容
+	12.	为新的文件添加协议信息
+	13.	为render.h添加注释
+2025-03-16
+	1.	make: make count统计代码行数排除examples中的源文件
+	2.	移除image.h中已经没用了的宏__INCOMPLETE_IMAGE__定义检测
+	3.	微调render.h中的部分注释
+	4.	doc: 修订render文档
+	5.	移除image.h中已过时的__IMAGE_TYPE__宏定义
+	6.	修改与timer_start有关的注释与文档
+2025-03-24
+	1.	tmath增加了用于浮点数和二维向量的线性插值函数lerp和vec2_lerp（可移植）
+	2.	tmath修改了bezier_s的实现（理论上其应当更加高效）
+	3.	完善有关img_info的注释
+2025-05-06
+	1. doc: 微调readme
+	2. doc: tmath添加有关*lerp函数的内容
+2025-05-07
+	1. doc: 改进render文档中对cat函数的描述
+	2. doc: 微调readme
+2025-05-08
+	1. doc: 更新pxtrix.md的Pxtrix架构示意图
+2025-05-14
+	1. render新增filp_v函数用于垂直翻转图像，并微调render.md
+	2. 改进perf.h中的注释
+	3. 将time_step的返回值类型更改为uint64_t并修改头文件和文档中的相关内容
+	4. 修复因render缺少部分头文件而造成的编译错误
+2025-06-10
+	1. 将有参数为精确宽度整数类型的printf家族的fmt参数中，与精确宽度整数类型对应的转换说明
+		里的转换字符改为宏PRI?N，改进了代码移植性令其在各种机器中可以正确输出数据
+2025-06-23
+	1. bug: 修复读取无法正常推断fb分辨率的问题（__fb_file_size函数代码写错了，通过cppcheck分析发现）
+2025-07-04
+	1. 将函数名in_mandelbrot重命名为为更合理的nbl2mandelbrot
+	2. tmath添加sgn函数并添加对应文档说明
+	3. 改进tmath的注释
+2025-07-05
+	1. fbdev.h中添加枚举fbdev_flags并在文档中添加对应内容
+	2. doc: 修改fbdev文档中的与fb_new相关的过时内容
+	3. 删除多余的fb_dev_flags枚举
+	4. 新的示例可交互mandelbrot set查看器 （仅linux可用）
+2025-07-06
+	1. 微调rander.c
+	2. fix: 修复make时MKDOC编译信息输出末尾缺少换行的问题
+	3. 为可交互mandelbrot set查看器添加多线程支持
+2025-07-07
+	1. 将perf的计时方式调整为基于物理时间的微秒级计时
+	2. 将make的cleanall子命令重命名为distclean并调整相关文档内容
+	3. 取消将pxtrix编译为静态库的实验性状态（将pxtrix编译为静态库成为正式功能）
+	4. 微调minorch
+	5. 微调readme
+	6. 将可交互mandelbrot set查看器命名为mandelbrot set viewer
+	7. 完善mandelbrot set viewer
+2025-07-08
+	1. render添加伽马校正函数并于文档中添加相关内容
+	2. mandelbrot set viewer添加参数用于设置伽马校正系数
+	3. 微调mandelbrot set viewer
+	4. doc: 补充与filp_v相关的文档及注释
+	5. 微调tmath.md
+2025-07-15
+	1. 微调mandelbrot set viewer

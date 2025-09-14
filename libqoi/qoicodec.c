@@ -1,7 +1,6 @@
 /* Licensed under the MIT License
  * Copyright (c) 2024 Smgdream */
 
-#define __LIBQOI_INSIDE__
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

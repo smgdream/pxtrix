@@ -4,11 +4,22 @@ INCLUDE =-I $(ROOT)/include
 CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
-libqoi.a: qoimg.h bswap.h image.h qoimg.c qoicodec.c qoi2img.c
+DIRNAME = libqoi
+HDR = qoimg.h qoicodec.h bswap.h image.h 
+SRC = qoimg.c qoicodec.c
+DEP = $(HDR) $(SRC)
+OBJ = $(addsuffix .o, $(basename $(SRC)))
+
+
+libqoi.a: .qoi.tmp
+	@printf "%s\t%s\n" AR $(DIRNAME)/$@
+	$(Q) $(AR) $@ $(OBJ)
+
+.qoi.tmp: $(DEP)
+	@rm -f $@
 	@for c_file in $(filter %.c, $^);\
 	do\
-		printf "%s\t%s\n" CC $(basename $@)/$$c_file;\
+		printf "%s\t%s\n" CC $(DIRNAME)/$$c_file;\
 	done
-	$(Q) $(CC) $(CFLAGS) -c qoimg.c qoicodec.c qoi2img.c
-	@printf "%s\t%s\n" AR $(basename $@)/$@
-	$(Q) $(AR) $@ qoimg.o qoicodec.o qoi2img.o
+	$(Q) $(CC) $(CFLAGS) -c $(SRC)
+	@touch $@

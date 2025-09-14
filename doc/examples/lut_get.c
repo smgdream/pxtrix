@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "image.h"
+#include "pic2img.h"
 #include "bmpimg.h"
 
 int main(int argc, char **argv)
@@ -18,7 +19,10 @@ int main(int argc, char **argv)
 	
 	bmp2img(bmp, img);
 	img_for_px(x, y, 0, 15, 256, 1)
-		printf("\t{ %d, %d, %d, %d },\n", img_px(img, x, y)->r, img_px(img, x, y)->g, img_px(img, x, y)->b, img_px(img, x, y)->a);
+		printf("\t{ %d, %d, %d, %d },\n", img_px(img, x, y)->r
+										, img_px(img, x, y)->g
+										, img_px(img, x, y)->b
+										, img_px(img, x, y)->a);
 	
 	img_free(img);
 	bmp_free(bmp);

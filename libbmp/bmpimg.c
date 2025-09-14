@@ -1,24 +1,26 @@
 /* Licensed under the MIT License
  * Copyright (c) 2024 Smgdream */
 
-#define __LIBBMP_INSIDE__
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include "bmpimg.h"
 
 typedef uint8_t Byte;
 
+#define  BFH_REAL_SIZ 14
 int bmp_set_fileheader(Bmpfile_header *bfhp, int32_t wid, int32_t hgt)
 {
 	if (bfhp == NULL)
 		return 1;
 	bfhp->bf_type = BMP_TYPE_BM;
-	bfhp->bf_size = (uint32_t)(14 + sizeof(Bmpinfo_header) + hgt * bmp_sizeof_line(wid));
+	bfhp->bf_size = (uint32_t) (
+		BFH_REAL_SIZ + sizeof(Bmpinfo_header) + hgt * bmp_sizeof_line(wid));
 	bfhp->bf_reserved1 = 0;
 	bfhp->bf_reserved2 = 0;
-	bfhp->bf_offbyte = (uint32_t)(14 + sizeof(Bmpinfo_header));
+	bfhp->bf_offbyte = (uint32_t)(BFH_REAL_SIZ + sizeof(Bmpinfo_header));
 	return 0;
 }
 
@@ -112,7 +114,7 @@ Bmpimg *bmp_read(const char *name)
 	/* New a Bmpimg object */
 	if ((bmp = (Bmpimg *) malloc(sizeof(Bmpimg))) == NULL)
 		return NULL;
-	if (bmp_test(name) == 0
+	if (bmp_valid(name) == 0
 	 || (fp = fopen(name, "rb")) == NULL) {
 		free(bmp);
 		return NULL;
@@ -129,7 +131,7 @@ Bmpimg *bmp_read(const char *name)
 	
 	wid = bmp->bih.bi_width;
 	hgt = bmp->bih.bi_height;
-	/* Init Bmp pixel buffer*/
+	/* Init Bmp pixel buffer */
 	if ((bmp->buf = (Bmp_px_def *) malloc(wid * hgt * sizeof(Bmp_px_def))) == NULL
 	 || (px_iobuf = (Byte *) malloc(hgt * bmp_sizeof_line(wid))) == NULL) {
 		if (px_iobuf != NULL)
@@ -209,39 +211,63 @@ int bmp_info(const Bmpimg *bmp, void *fptr)
 		return 1;
 	
 	fprintf(fp, "\nBitmap file header:\n");
-	fprintf(fp, "%s: %c%c\n",	"bf_type",		*((char *)&bmp->bfh.bf_type + 0), *((char *)&bmp->bfh.bf_type + 1));
-	fprintf(fp, "%s: %u\n",		"bf_size",		bmp->bfh.bf_size);
-	fprintf(fp, "%s: %hu\n",	"bf_reserved1",	bmp->bfh.bf_reserved1);
-	fprintf(fp, "%s: %hu\n",	"bf_reserved2",	bmp->bfh.bf_reserved2);
-	fprintf(fp, "%s: %u\n",		"bf_offbits",	bmp->bfh.bf_offbyte);
+	fprintf(fp, "%s: %c%c\n",		"bf_type",		*((char *)&bmp->bfh.bf_type + 0),
+													*((char *)&bmp->bfh.bf_type + 1));
+	fprintf(fp, "%s: %"PRIu32"\n",	"bf_size",		bmp->bfh.bf_size);
+	fprintf(fp, "%s: %"PRIu16"\n",	"bf_reserved1",	bmp->bfh.bf_reserved1);
+	fprintf(fp, "%s: %"PRIu16"\n",	"bf_reserved2",	bmp->bfh.bf_reserved2);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bf_offbits",	bmp->bfh.bf_offbyte);
 	
 	fprintf(fp, "\nBitmap info header:\n");
-	fprintf(fp, "%s: %u\n",	"bi_size",			bmp->bih.bi_size);
-	fprintf(fp, "%s: %d\n",	"bi_width",			bmp->bih.bi_width);
-	fprintf(fp, "%s: %d\n",	"bi_height",		bmp->bih.bi_height);
-	fprintf(fp, "%s: %hu\n","bi_planes",		bmp->bih.bi_planes);
-	fprintf(fp, "%s: %hu\n","bi_bitcount",		bmp->bih.bi_bitcount);
-	fprintf(fp, "%s: %u\n",	"bi_compression",	bmp->bih.bi_compression);
-	fprintf(fp, "%s: %u\n",	"bi_sizeimage",		bmp->bih.bi_sizeimage);
-	fprintf(fp, "%s: %d\n",	"bi_x_px_per_meter",bmp->bih.bi_x_px_permeter);
-	fprintf(fp, "%s: %d\n",	"bi_y_px_per_meter",bmp->bih.bi_y_px_permeter);
-	fprintf(fp, "%s: %u\n",	"bi_clrused",		bmp->bih.bi_clrused);
-	fprintf(fp, "%s: %u\n",	"bi_clrimportant",	bmp->bih.bi_clrimportant);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bi_size",			bmp->bih.bi_size);
+	fprintf(fp, "%s: %"PRId32"\n",	"bi_width",			bmp->bih.bi_width);
+	fprintf(fp, "%s: %"PRId32"\n",	"bi_height",		bmp->bih.bi_height);
+	fprintf(fp, "%s: %"PRIu16"\n",	"bi_planes",		bmp->bih.bi_planes);
+	fprintf(fp, "%s: %"PRIu16"\n",	"bi_bitcount",		bmp->bih.bi_bitcount);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bi_compression",	bmp->bih.bi_compression);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bi_sizeimage",		bmp->bih.bi_sizeimage);
+	fprintf(fp, "%s: %"PRId32"\n",	"bi_x_px_per_meter",bmp->bih.bi_x_px_permeter);
+	fprintf(fp, "%s: %"PRId32"\n",	"bi_y_px_per_meter",bmp->bih.bi_y_px_permeter);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bi_clrused",		bmp->bih.bi_clrused);
+	fprintf(fp, "%s: %"PRIu32"\n",	"bi_clrimportant",	bmp->bih.bi_clrimportant);
 	return 0;
 }
 
-int bmp_test(const char *name)
+int bmp_valid(const char *name)
 {
 	FILE *fp = NULL;
+	Bmpinfo_header bih;
 	uint16_t tmp = 0;
-
+	
 	if (name == NULL || (fp = fopen(name, "rb")) == NULL)
 		return 0;
+	
 	if (fread(&tmp, 1, 2, fp) != 2) {
 		fclose(fp);
 		return 0;
 	}
+	fseek(fp, 12, SEEK_CUR);
+	fread(&bih, sizeof(bih), 1, fp);
 	fclose(fp);
+
+	if (bih.bi_bitcount != 24) {
+		fprintf(stderr, "not support bitmap type %s: %"PRIu16" != 24"
+					  , "bi_bitcount"
+					  , bih.bi_bitcount);
+		return 0;
+	}
+	if (bih.bi_clrused != 0 && bih.bi_clrused != 16777216) {
+		fprintf(stderr, "not support bitmap type %s: %"PRIu32
+					  , "bi_clrused"
+					  , bih.bi_clrused);
+		return 0;
+	}
+	if (bih.bi_clrimportant != 0) {
+		fprintf(stderr, "not support bitmap type %s: %"PRIu32" != 0"
+					  , "bi_clrimportant"
+					  , bih.bi_clrimportant);
+		return 0;
+	}
 
 	if (tmp == BMP_TYPE_BM)
 		return 1; // valid bmp file

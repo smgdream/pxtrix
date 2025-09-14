@@ -1,4 +1,5 @@
 # Portable Bitmap Image structure
+
 ```c
 /* bmpimg.h */
 
@@ -47,3 +48,7 @@ typedef struct bmp_px_rgb24 {
 } Bmp_px_rgb24, Bmp_px_def;
 ```
 注：在BMP文件中每个像素扫描行要与`uint32_t`对齐(即一行像素的空间占用大小能被4byte整除)，行末的空间可用`0x00`填充，以实现对齐。
+
+## Reference
+
+- [Microsoft Bitmap Image Format](ms-bmp-format.md)

@@ -4,11 +4,22 @@ INCLUDE =-I $(ROOT)/include
 CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
-libbmp.a: bmpimg.h image.h bmpimg.c bmp2img.c
+DIRNAME = libbmp
+HDR = bmpimg.h image.h 
+SRC = bmpimg.c
+DEP = $(HDR) $(SRC)
+OBJ = $(addsuffix .o, $(basename $(SRC)))
+
+
+libbmp.a: .bmp.tmp
+	@printf "%s\t%s\n" AR $(DIRNAME)/$@
+	$(Q) $(AR) $@ $(OBJ)
+
+.bmp.tmp: $(DEP)
+	@rm -f $@
 	@for c_file in $(filter %.c, $^);\
 	do\
-		printf "%s\t%s\n" CC $(basename $@)/$$c_file;\
+		printf "%s\t%s\n" CC $(DIRNAME)/$$c_file;\
 	done
-	$(Q) $(CC) $(CFLAGS) -c bmpimg.c bmp2img.c
-	@printf "%s\t%s\n" AR $(basename $@)/$@
-	$(Q) $(AR) $@ bmpimg.o bmp2img.o
+	$(Q) $(CC) $(CFLAGS) -c $(SRC)
+	@touch $@

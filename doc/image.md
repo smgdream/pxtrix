@@ -45,7 +45,7 @@ typedef struct px_rgba_32bit {
 
 ## image其它定义
 
-```c
+```
 enum color_gamut { sRGB, DCI_P3, Adobe_RGB };
 ```
 
@@ -54,29 +54,29 @@ enum color_gamut { sRGB, DCI_P3, Adobe_RGB };
 ```c
 /* image.h */
 
-/* New a Image object */
+/* New a Image object.  */
 Image *img_new(uint32_t wid, uint32_t hgt, uint32_t bpp, uint32_t gamut);
-
-/* Free a Image object */
+/* Free a Image object.  */
 int img_free(Image *img);
 
-/* Reconfigure a Image object */
+/* Reconfigure a Image object.  */
 Image *img_set(Image *img, uint32_t wid, uint32_t hgt, uint32_t bpp, uint32_t gamut);
-
-/* Copy the date of Image object from src to dest */
+/* Copy the date of Image object from src to dest.  */
 Image *img_copy(Image *dest, const Image *src);
-
-/* Get the pixel at (x, y) from img */
+/* Get the pixel at (x, y) from img.  */
 Px_def *img_px(Image *img, uint32_t x, uint32_t y);
 
-/* For x_name, y_name from (x_beg, y_beg) to (x_beg+wid-1, y_beg+hgt-1) */
+/* Print the information of a Image object to the stream.  */
+int img_info(const Image *img, void *fileptr);
+
+/* For x_name, y_name from (x_beg, y_beg) to (x_beg+wid-1, y_beg+hgt-1).  */
 img_for_px(x_name, y_name, x_beg, y_beg, wid, hgt)
 	statement;
 
-/* Used as the argument of img_new, to new a empty Image object */
+/* Used as the argument of img_new, to new a empty Image object.  */
 macro: IMG_EMPTY
 ```
-为了保持模块的简洁与松耦合，其它图像类型与Image图像类型的双向转换由附加模块各自实现，而并非由image模块实现。  
+为了保持模块的简洁与松耦合，其它图像类型与Image图像类型的双向转换由一个独立的模块(pic2img)实现，而并非由image模块实现。  
 
 ### Image操作函数使用说明
 
@@ -110,6 +110,12 @@ Image *img_copy(Image *dest, const Image *src);
 Px_def *img_px(const Image *img, uint32_t x, uint32_t y);
 ```
 `img_px`将返回`img`中位于(x, y)处的像素的指针，如果出错则返回NULL.  
+<br>
+
+```c
+int img_info(const Image *img, void *fileptr);
+```
+`img_info`将`img`对象的信息输出到流`fileptr`中.
 <br>
 
 ```c

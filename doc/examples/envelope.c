@@ -7,6 +7,7 @@
 #include <math.h>
 #include "util.h"
 #include "image.h"
+#include "pic2img.h"
 #include "bmpimg.h"
 #include "pgm.h"
 #include "render.h"

@@ -12,7 +12,7 @@ The bitmap file format is shown in the following table.
 <br>
 
 ## BITMAPFILEHEADER structure
-```c
+```
 typedef struct tagBITMAPFILEHEADER {
 	WORD  bfType;
 	DWORD bfSize;
@@ -40,7 +40,7 @@ The offset, in bytes, from the beginning of the BITMAPFILEHEADER structure to th
 <br>
 
 ## BITMAPINFOHEADER structure
-```c
+```
 typedef struct tagBITMAPINFOHEADER {
 	DWORD biSize;
 	LONG  biWidth;
@@ -115,7 +115,7 @@ https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rgbquad\
 
 ## Color-index array
 
-```c
+```
 /* Microsoft didn't define a specific type of color-index */
 struct Colors {
 	BYTE blue;
@@ -126,7 +126,7 @@ struct Colors {
 The scan lines are DWORD aligned, except for RLE-compressed bitmaps. They must be padded for scan line widths, in bytes, that are not evenly divisible by four, except for RLE compressed bitmaps. For example, a 10- by 10-pixel 24-bpp bitmap will have two padding bytes at the end of each scan line. We can use 0x00 as padding-byte.
 
 ## Addition
-```c
+```
 typedef uint8_t  BYTE;
 typedef uint16_t WORD;
 typedef uint32_t DWORD;

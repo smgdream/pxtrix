@@ -8,8 +8,9 @@
  * Date: 2025-01-10
  */
 
-#include "image.h"
 #include <stdio.h>
+#include "image.h"
+#include "pic2img.h"
 #include "bmpimg.h"
 #include "pgm.h"
 

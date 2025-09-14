@@ -1,6 +1,7 @@
 /* Licensed under the MIT License
  * Copyright (c) 2024 Smgdream */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include "image.h"
@@ -85,4 +86,19 @@ Image *img_copy(Image *dest, const Image *src)
 	img_for_px(x, y, 0, 0, src->width, src->height)
 		*img_px(dest, x, y) = *img_px(src, x, y);
 	return dest;
+}
+
+int img_info(const Image *img, void *fptr)
+{
+	FILE *fp = (FILE *)fptr;
+
+	if (img == NULL || fp == NULL)
+		return 1;
+
+	fprintf(fp, "%s:\t%u\n", "width",	img->width);
+	fprintf(fp, "%s:\t%u\n", "height",	img->height);
+	fprintf(fp, "%s:\t%u\n", "bbp",		img->bpp);
+	fprintf(fp, "%s:\t%u\n", "gamut",	img->gamut);
+
+	return 0;
 }

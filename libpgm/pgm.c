@@ -1,10 +1,10 @@
 /* Licensed under the MIT License
  * Copyright (c) 2025 Smgdream */
 
-#define __LIBPGM_INSIDE__
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "pgm.h"
 
 Pgm *pgm_new(uint16_t wid, uint16_t hgt)
@@ -41,7 +41,7 @@ Pgm *pgm_read(const char *name)
 	FILE *fp = NULL;
 	Pgm *tmp = NULL;
 	
-	if (!pgm_test(name))
+	if (!pgm_valid(name))
 		return NULL;
 	if ((fp = fopen(name, "rb")) == NULL)
 		return NULL;
@@ -115,14 +115,14 @@ int pgm_info(const Pgm *p5, void *fileptr)
 		return -1;
 
 	//fprintf(fp, "id:%s", "P5");
-	fprintf(fp, "width:  %d\n", p5->width);
-	fprintf(fp, "height: %d\n", p5->height);
-	fprintf(fp, "maxval: %d\n", p5->maxval);
+	fprintf(fp, "width:  %"PRIu16"\n", p5->width);
+	fprintf(fp, "height: %"PRIu16"\n", p5->height);
+	fprintf(fp, "maxval: %"PRIu16"\n", p5->maxval);
 
 	return 0;
 }
 
-int pgm_test(const char *name)
+int pgm_valid(const char *name)
 {
 	FILE *fp = NULL;
 	char tmp[3] = {'\0'};
@@ -130,6 +130,7 @@ int pgm_test(const char *name)
 	if ((fp = fopen(name, "rb")) == NULL)
 		return 0;
 	fread(tmp, 2, 1, fp);
+	fclose(fp);
 
 	if (strcmp(tmp, "P5") == 0)
 		return 1;

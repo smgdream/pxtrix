@@ -1,10 +1,10 @@
 /* Licensed under the MIT License
  * Copyright (c) 2024 Smgdream */
 
-#define __LIBQOI_INSIDE__
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "qoimg.h"
 #include "bswap.h"
 
@@ -51,7 +51,7 @@ Qoimg *qoi_read(const char *name)
 	uint32_t wid = 0, hgt = 0;
 
 	if ( name == NULL
-	 || qoi_test(name) == 0
+	 || qoi_valid(name) == 0
 	 || (fp = fopen(name, "rb")) == NULL)
 		return NULL;
 	if ((qoi = (Qoimg *) malloc(sizeof(Qoimg))) == NULL) {
@@ -129,11 +129,12 @@ int qoi_info(const Qoimg *qoi, void *fptr)
 		return 1;
 
 	fprintf(fp, "QOI header:\n");
-	fprintf(fp, "%s: %.4s\n", "magic", qoi->header.magic);
-	fprintf(fp, "%s: %u\n", "width", qoi->header.width);
-	fprintf(fp, "%s: %u\n", "height", qoi->header.height);
-	fprintf(fp, "%s: %u\n", "channels", qoi->header.channels);
-	fprintf(fp, "%s: %u\n", "colorspace", qoi->header.colorspace);
+	fprintf(fp, "%s: %.4s\n",		"magic",		qoi->header.magic);
+	fprintf(fp, "%s: %"PRIu32"\n",	"width",		qoi->header.width);
+	fprintf(fp, "%s: %"PRIu32"\n",	"height",		qoi->header.height);
+	fprintf(fp, "%s: %"PRIu8" (%s)\n",	"channels", qoi->header.channels,
+							(qoi->header.channels == 3) ? "RGB" : "RGBA");
+	fprintf(fp, "%s: %"PRIu8"\n",	"colorspace",	qoi->header.colorspace);
 	return 0;
 }
 
@@ -166,7 +167,7 @@ Qoimg *qoi_set(Qoimg *qoi, uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t
 	return qoi;
 }
 
-int qoi_test(const char *name)
+int qoi_valid(const char *name)
 {
 	FILE *fp = NULL;
 	Qoimg qoi;

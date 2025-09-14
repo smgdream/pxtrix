@@ -8,6 +8,8 @@
  * Date: 2024-11-12
  */
 
+/* Not support for tcc */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <complex.h>
@@ -15,12 +17,14 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "image.h"
+#include "pic2img.h"
 #include "bmpimg.h"
 #include "qoimg.h"
 #include "perf.h"
 
-/* -2 <= real <= 2, -2 <= imag <= -2 */
-int32_t in_mandelbrot(double real, double imag);
+/* -2 <= real <= 2, -2 <= imag <= -2
+ * nbl means: no belong */
+int32_t nbl2mandelbrot(double real, double imag);
 void *draw_the_mdb_line(void *);
 static int max_it = 0;
 static uint64_t img_end_ptr = 0;
@@ -107,7 +111,7 @@ void *draw_the_mdb_line(void *ptr)
 	int32_t x = 0, y = 0;
 	for (;line < img->height; line += 64)
 		img_for_px(x, y, 0, line, len, 1) {
-			int32_t val = in_mandelbrot( (double)(x - ((int64_t)img->width >> 1)) * 4.0 / (double)img->width, (double)(y - ((int64_t)img->height >> 1)) * 4.0 / (double)img->height);
+			int32_t val = nbl2mandelbrot( (double)(x - ((int64_t)img->width >> 1)) * 4.0 / (double)img->width, (double)(y - ((int64_t)img->height >> 1)) * 4.0 / (double)img->height);
 			uint8_t clr = (val < 0) ? 0 : (uint8_t)(pow((double)val / (double)max_it, gamm) * 255) ;
 			img_px(img, x, y)->r = clr;
 			img_px(img, x, y)->g = clr;
@@ -121,7 +125,7 @@ void *draw_the_mdb_line(void *ptr)
 
 #define MAX_IT (8192)
 
-int32_t in_mandelbrot(double re, double im)
+int32_t nbl2mandelbrot(double re, double im)
 {
 	complex z = 0 + 0 * I;
 	complex c = re + im * I;

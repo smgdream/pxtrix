@@ -1,47 +1,21 @@
 /* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+ * Copyright (c) 2024 Smgdream 
+ * 
+ * Coordinate of Qoimg
+ * 
+ * 0             x
+ *   +---------->
+ *   |
+ *   |   qoi
+ *   |
+ * y v
+ */
 
 #ifndef QOIMG_H
 #define QOIMG_H
 
 #include <stddef.h>
 #include <stdint.h>
-
-/* The following preprocessing directive is used to avoid the redefinition
- * of Image type.
- * 
- * Usage:
- * In the source file within libqoi, it should be define __LIBQOI_INSIDE__ before
- * including qoimg.h. e.g.
- * 
- * #define __LIBQOI_INSIDE__
- * // ...
- * #include "qoimg.h"
- * 
- * If the source file within libqoib needs to include image.h also define
- * __LIBQOI_USE_IMAGE__ before including qoimg.h. e.g.
- * 
- * #define __LIBQOI_INSIDE__
- * #define __LIBQOI_USE_IMAGE__
- * // ...
- * #include "qoimg.h"
- * #include "image.h"
- * 
- * For the user of pxtrix, do not define __LIBQOI_USE_IMAGE__ or
- * __LIBQOI_INSIDE__ in the source files that use libqoi and/or image e.g.
- * // main.c
- * #include "image.h"
- * #include "qoimg.h"  */
-#ifdef __LIBQOI_INSIDE__
-	#if !defined(__IMAGE_TYPE__) && !defined(__LIBQOI_USE_IMAGE__)
-		typedef struct image Image;
-	#endif
-	#ifdef __LIBQOI_USE_IMAGE__
-		#include "image.h"
-	#endif
-#else
-	#include "image.h"
-#endif
 
 //enum qoi_channels_set { RGB = 3, RGBA = 4 };
 //enum qoi_colorspace_set { sRGB_LA, ALL_LINEAR };
@@ -88,20 +62,11 @@ Qoimg *qoi_read(const char *filename);
 /* Write qoi to a QOI image file. Returns 0, or non-zero on error.  */
 int qoi_write(const Qoimg *qoi, const char *filename);
 
-/* Convert a Qoimg object to a Image object. Return img, or NULL on error. 
- * When size of pixel buffer of img is unsuitable it will reallocate the
- * pixel buffer automatically.  */
-Image *qoi2img(const Qoimg *qoi, Image *img);
-/* Convert a Image object to a Image object. Return qoi, or NULL on error.
- * When size of pixel buffer of qoi is unsuitable it will reallocate the
- * pixel buffer automatically.  */
-Qoimg *img2qoi(const Image *img, Qoimg *qoi);
-
 /* Print the information of qoi to a file stream. Return non-zero on error.  */
 int qoi_info(const Qoimg *qoi, void *fileptr);
-/* Test a file is QOI file or not.
+/* Test a file is a vaild QOI file or not.
  * Returns true (non-zero) if is or false (i.e. zero) if isn't.  */
-int qoi_test(const char *filename);
+int qoi_valid(const char *filename);
 /* As a argument. Be used to create a empty Qoimg.  */
 #define QOI_EMPTY 0, 0, 4, 0
 
@@ -116,5 +81,11 @@ size_t qoi_encode(Byte *iobuf, const Qoi_px_def *src, uint64_t cnt);
 /* Reconfigure a Qoimg object.  */
 Qoimg *qoi_set(Qoimg *qoi, uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t colorspace);
 
+static inline Qoi_px_def *qoi_px(const Qoimg *qoi, uint32_t x, uint32_t y)
+{
+	if (qoi == NULL || x >= qoi->header.width || y >= qoi->header.height)
+		return NULL;
+	return &qoi->buf[x + y * qoi->header.width];
+}
 
 #endif

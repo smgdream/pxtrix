@@ -1,3 +1,19 @@
+0.2.1-dev
+	1.	调整了模块开发要求文档(dev-intro.md)
+	2.	添加了对framebuffer的支持
+	3.	添加了对character art的支持
+	4.	改进了tmath（E->NC, 二维向量结构定义及运算函数和贝塞尔函数等）
+	5.	改进了render（三次贝塞尔、图像缩放）
+	6.	支持将pxtrix编译为动态库（实验性）
+	7.	改进将pxtrix编译为库后的使用体验（库usage）
+	8.	宏__LIB*_INSIDE__和__LIB*_USE_IMAGE__已不再需要（详见dev-intro）
+	9.	将*_test重命名为*_valid（详见各模块的文档及dev-intro）
+	10.	将各模块的xxx2xxx分离出来聚集到lib2img中（使用需包含pic2img.h）
+	11.	将lut文件clr_lut_*.lut重命名为lut_*.h
+	12.	若干其他改进（详见DEVLOG）
+	13.	修复若干bug（详见DEVLOG）
+	14.	新的示例
+	15.	完善并修正文档
 0.2.0
 	1.	make help
 	2.	完善并修正文档

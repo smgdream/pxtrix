@@ -4,7 +4,7 @@
 
 A QOI file has a 14 byte header, followed by any number of data "chunks" and an 8-byte end marker.  
 
-```c
+```
 struct qoi_header_t {
 	char     magic[4];   // magic bytes "qoif"
 	uint32_t width;      // image width in pixels (BE)
@@ -147,5 +147,6 @@ The run-length is stored with a bias of -1. Note that the run-lengths 63 and 64 
 <br>
 
 ## Reference
+[Lossless Image Compression in O(n) Time](https://phoboslab.org/log/2021/11/qoi-fast-lossless-image-compression)
 [QOI Specification PDF Version](https://qoiformat.org/qoi-specification.pdf)
-[QOI Specification Html Version](https://phoboslab.org/log/2021/11/qoi-fast-lossless-image-compression)
+[QOI Specification Text Version](https://github.com/phoboslab/qoi/blob/master/qoi.h)

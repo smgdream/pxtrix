@@ -2,7 +2,7 @@
 
 QOI模块用于对Quite Ok Image(QOI)图像格式进行IO、编解码、以及与Image图像格式进行转换。与该模块相关的图像类型是Qoimg. QOI模块还包含了对Qoimg类型进行操作的操作函数以及一些有关函数。  
 
-要使用qoi模块需要包含`qoimg.h`头文件，并要编译相关C语言源文件。
+要使用qoi模块需要包含`qoimg.h`头文件，并要编译相关C语言源文件或链接相关库。
 
 ## QOI的像素排列顺序
 ```
@@ -60,45 +60,36 @@ typedef struct qoi_px_rgba {
 
 /* New a Qoimg object */
 Qoimg *qoi_new(uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t colorspace);
-
 /* Free a Qoimg object */
 int qoi_free(Qoimg *qoi);
 
 /* Read and decode a QOI image file. At the same time create a Qoimg for it ? */
 Qoimg *qoi_read(const char *filename);
-
 /* Write and encode a Qoimg object to a QOI image file */
 int qoi_write(const Qoimg *qoi, const char *filename);
 
-/* Convert a Qoimg object to an Image object */
-Image *qoi2img(const Qoimg *qoi, Image *img);
-
-/* Convert an Image object to a Qoimg object */
-Qoimg *img2qoi(const Image *img, Qoimg *qoi);
-
+/* Test a file is qoi file or not */
+int qoi_valid(const char *filename);
 /* Print the information of qoi to a file stream */
 int qoi_info(const Qoimg *qoi, void *fileptr);
 
-/* Test a file is qoi file or not */
-int qoi_test(const char *filename);
-
 /* Use as a argument to create a empty Qoimg object */
-macro: QOI_EMPTY
-```
+#define QOI_EMPTY 0, 0, 4, 0
 
-<br>
-
-```c
 /* qoimg.h */
 /* Other function */
 
 /* Reconfigure a Qoimg object */
 Qoimg *qoi_set(Qoimg *qoi, uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t colorspace);
-/* Decode the qoi data chunks to rgba pixels ? */
+/* Get the pixel at (x, y) in Qoimg */
+Qoi_px_def *qoi_px(const Qoimg *qoi, uint32_t x, uint32_t y);
+/* Decode the qoi data chunks to rgba pixels */
 int qoi_decode(Qoi_px_def *dest, const Byte *iobuf, uint64_t cnt);
-/* Encode the rgba pixels data to data chunks ? */
+/* Encode the rgba pixels data to data chunks */
 size_t qoi_encode(Byte *iobuf, const Qoi_px_def *src, uint64_t cnt);
 ```
+
+<br>
 
 ### Qoimg操作函数使用说明
 
@@ -106,7 +97,7 @@ size_t qoi_encode(Byte *iobuf, const Qoi_px_def *src, uint64_t cnt);
 ```c
 Qoimg *qoi_new(uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t colorspace);
 ```
-`qoi_new`函数用于新建一个`Qoimg`对象。返回该对象的指针，若出错则返回NULL.  
+`qoi_new`函数用于新建一个`Qoimg`对象。返回该对象的指针，若出错则返回`NULL`.  
 `wid`为图像宽度px，`hgt`为图像高度px，`channels`为图像通道数，`colorspace`为图像色域常数值。`QOI_EMPTY`宏可代替所有参数用以创建一个空白`Qoimg`对象。  
 <br>
 
@@ -119,7 +110,7 @@ int qoi_free(Qoimg *qoi);
 ```c
 Qoimg *qoi_read(const char *filename);
 ```
-`qoi_read`函数用于读取并解码QOI图像文件并为其创建一个`Qoimg`对象。该函数返回指向该对象的指针，当发生错误则返回NULL.  
+`qoi_read`函数用于读取并解码QOI图像文件并为其创建一个`Qoimg`对象。该函数返回指向该对象的指针，当发生错误则返回`NULL`.  
 <br>
 
 ```c
@@ -129,40 +120,34 @@ int qoi_write(const Qoimg *qoi, const char *filename);
 <br>
 
 ```c
-Image *qoi2img(const Qoimg *qoi, Image *img);
-```
-`qoi2img`函数将一个`Qoimg`对象转换为`Image`对象，如果`Image`对象的像素缓冲区大小不合适，则重新调整像素缓冲区大小（像素缓冲区的地址可能会发生变化）。返回`img`，若出错则返回NULL.  
-<br>
-
-```c
-Qoimg *img2qoi(const Image *img, Qoimg *qoi);
-```
-`img2qoi`函数将一个`Image`对象转换为`Qoimg`对象，如果`Qoimg`对象的像素缓冲区大小不合适，则重新调整像素缓冲区大小（像素缓冲区的地址可能会发生变化）。返回`qoi`，若出错则返回NULL.  
-<br>
-
-```c
 int qoi_info(const Qoimg *qoi, void *fileptr);
 ```
 `qoi_info`将qoi的信息打印到文件流中，若出错返回非0值。  
 <br>
 
-```C
-int qoi_test(const char *filename);
+```c
+int qoi_valid(const char *filename);
 ```
-`qoi_test`函数用于测试文件(`filename`)是否为QOI文件，是则返回真（非0值）否则返回假 (0)。  
+`qoi_test`函数用于测试文件(`filename`)是否为有效的QOI文件，是则返回真（非0值）否则返回假 (0)。  
 
 #### 其它函数
 ```c
 Qoimg *qoi_set(Qoimg *qoi, uint32_t wid, uint32_t hgt, uint8_t channels, uint8_t colorspace);
 ```
-`qoi_set`函数用于重新设置qoi，返回qoi，若出错则返回NULL.  
+`qoi_set`函数用于重新设置qoi，返回qoi，若出错则返回`NULL`.  
 宏`QOI_EMPTY`可用于代替第一个参数之后的所有参数，用以创建一个空白Qoimg对象。  
+<br>
+
+```c
+Qoi_px_def *qoi_px(const Qoimg *qoi, uint32_t x, uint32_t y);
+```
+`qoi_px`函数用于获得在指定Qoimg对象中位于坐标(x, y)的像素点。返回对应像素点的指针，若出错则返回`NULL`.  
 <br>
 
 ```c
 int qoi_decode(Qoi_px_def *dest, const Byte *iobuf, uint64_t cnt);
 ```
-`qoi_decode`函数用于将原始的字节数据解码为rgba像素，若出错则返回非0值。  
+`qoi_decode`函数用于将原始的字节数据解码为rgba像素。正常返回0，若出错则返回非0值。  
 `dest`指向用于存储解码出来的rgba像素数据的缓冲区，`iobuf`为存储未解码字节数据的IO缓冲区，`cnt`是要被解码的像素数量。  
 <br>
 
@@ -177,14 +162,8 @@ size_t qoi_encode(Byte *iobuf, const Qoi_px_def *src, uint64_t cnt);
 
 ### 空Qoimg对象
 
-可对空Qoimg对象进行的操作的函数是受限的，其合法操作函数有: `qoi_free`, `img2qoi`, `qoi_info`, `qoi_set`以及其它用户自己设计的合理合法的操作函数。
-
-### 用于防止Image重定义的宏
-为了防止重新Image类型在部分语境下出现重复定义的情况，实现引进了两个宏 `__LIBQOI_INSIDE__` 和 `__LIBQOI_USE_IMAGE__`。
-
-对于普通的libqoi用户来说，以上两个宏是无关紧要的，在源文件中直接包含qoimg.h即可，无须（请勿）定义以上宏。  
-对于libqoi的开发人员，如果libqoi中的源文件包含qoimg.h，必须在 `#include "qoimg.h"` 之前定义 `__LIBQOI_INSIDE__` 。如果该源文件还包含image.h，则还需要在 `#include "qoimg.h"` 之前定义`__LIBQOI_USE_IMAGE__`。
+可对空Qoimg对象进行的操作的函数是受限的，其合法操作函数有: `qoi_free`, `img2qoi`, `qoi_info`, `qoi_set`以及其它用户自己设计的合理合法的操作函数。  
 
 ## Know more
-- [QOI Specification v1.0](./qoi-spec.md)
-- [QOI Specification v1.0-chs](./qoi-spec_chs.md)
+- [QOI Specification v1.0](qoi-spec.md)
+- [QOI Specification v1.0-chs](qoi-spec_chs.md)
