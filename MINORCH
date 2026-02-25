@@ -1,3 +1,18 @@
+0.2.2-dev
+	1.	正式pxtrix编译为静态库
+	2.	为render添加了invert、cat、crop、filp_v
+	3.	tmath添加了线性插值函数和sgn函数并优化了beizer_s函数
+	4.	添加img_info函数用于输出Image对象的信息
+	5.	将perf耗时计算的精度改进至亚微秒级
+	6.	改进makefile配置
+	7.	改进格式化输出代码的可移植性
+	8.	移除和更正部分过时的内容和代码
+	9.	添加多线程可交互mandelbrot set查看器示例
+	10.	添加了更多示例代码
+	11.	修复若干bugs（详见DEVLOG）
+	12.	若干其他改进（详见DEVLOG）
+	13.	更新文档
+	Note: filp_v是一个拼写错误的函数名，但可用，在0.2.3中其已更正为正确的名字flip_v
 0.2.1-dev
 	1.	调整了模块开发要求文档(dev-intro.md)
 	2.	添加了对framebuffer的支持

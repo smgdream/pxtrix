@@ -6,8 +6,8 @@
 #ifndef TMATH_H
 #define TMATH_H
 
+#include <stddef.h>
 #include <math.h>
-
 
 #define PI (3.141592652589)
 #define TAU (6.283185307179)
@@ -15,38 +15,37 @@
 #define NC (2.718281828459)
 #define GOLD (1.618033988749)
 
-#ifndef __TINYC__ // support for inline feature
-	/* Determine the Cartesian x-coordinate for polar coordinates (r, t).  */
-	static inline double polar_x(double r, double t)
-	{
-		return r * cos(t);
-	}
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max3(a, b, c) (max((a), max((b), (c))))
+#define min3(a, b, c) (min((a), min((b), (c))))
 
-	/* Determine the Cartesian y-coordinate for polar coordinates (r, t).  */
-	static inline double polar_y(double r, double t)
-	{
-		return r * sin(t);
-	}
+/* Determine the Cartesian x-coordinate for polar coordinates (r, t).  */
+static inline double polar_x(double r, double t)
+{
+	return r * cos(t);
+}
 
-	/* Determine the polar coordinate r corresponding to Cartesian coordinates
-	 * (x, y).  */
-	static inline double polar_r(double x, double y)
-	{
-		return sqrt(x * x + y * y);
-	}
+/* Determine the Cartesian y-coordinate for polar coordinates (r, t).  */
+static inline double polar_y(double r, double t)
+{
+	return r * sin(t);
+}
 
-	/* Determine the polar coordinate t corresponding to Cartesian coordinates
-	 * (x, y).  */
-	static inline double polar_t(double x, double y)
-	{
-		return atan2(y, x);
-	}
-#else // not support for inline feature
-	#define polar_x(r, t) ((r) * cos(t))
-	#define polar_y(r, t) ((r) * sin(t))
-	#define polar_r(x, y) (sqrt((x) * (x) + (y) * (y)))
-	#define polar_t(x, y) (atan2(y, x))
-#endif
+/* Determine the polar coordinate r corresponding to Cartesian coordinates
+ * (x, y). Returns value in range [0, +inf).  */
+static inline double polar_r(double x, double y)
+{
+	return sqrt(x * x + y * y);
+}
+
+/* Determine the polar coordinate t corresponding to Cartesian coordinates
+ * (x, y). Return value in range [0, 2Pi) */
+static inline double polar_t(double x, double y)
+{
+	double t = atan2(y, x);
+	return (t >= 0) ? t : t + TAU;
+}
 
 /* range the polar coordinate r (radius) is a double iterator, t (theta) is
  * a double iterator  */
@@ -187,7 +186,5 @@ static inline Vec2 bezier_n(Vec2 *p_arr, size_t n, double t)
 	
 	return sum;
 }
-
-
 
 #endif

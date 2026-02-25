@@ -31,17 +31,7 @@ typedef struct image {
 	Px_def	*buf;    // pixel buffer
 } Image;
 ```
-Px_def默认像素结构
-```c
-/* pixel.h */
-
-typedef struct px_rgba_32bit {
-	uint8_t r; // red
-	uint8_t g; // green
-	uint8_t b; // blue
-	uint8_t a; // alpha
-} Px_rgba_32bit, Px_rgba32_t, Px_def;
-```
+`Px_def`为默认像素结构，其定义在Pixel子模块的头文件pixel.h中，当前其对应RGBA8888格式的像素。除此之外Pixel模块还定义了其他一些像素结构以及与像素相关的函数和宏。详见[Pixel模块](pixel.md)。
 
 ## image其它定义
 
@@ -132,4 +122,7 @@ img_for_px(x, y, 101, 51, 100, 50) {
 	img_px(my_img, x, y)->a = 255;
 }
 ```
-将my_img中从(101, 51)到(200, 100)的100 * 50的区域填充为黑色。
+将my_img中从(101, 51)到(200, 100)的100 * 50的区域填充为黑色。  
+
+## Know More
+- [Pixel](pixel.md)

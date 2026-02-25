@@ -5,11 +5,10 @@ CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
 DIRNAME = libbmp
-HDR = bmpimg.h image.h 
+HDR = bmpimg.h
 SRC = bmpimg.c
 DEP = $(HDR) $(SRC)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
-
 
 libbmp.a: .bmp.tmp
 	@printf "%s\t%s\n" AR $(DIRNAME)/$@

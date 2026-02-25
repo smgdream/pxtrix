@@ -1,0 +1,8 @@
+[DONE] perf.c现实物理时间的微秒级计时
+[DONE] make cleanall子命令重命名为distclean
+[DONE] 完善pixel.c相关的make配置
+[DONE] 添加adj_gamma函数相关的注释与说明
+[DONE] 深入子目录的文件清理
+[DONE] 重新理清构建各项的依赖关系并据此调整makefile
+将各个图像文件/设备编解码库放进一个库文件夹中？
+为部分fb设备的尺寸添加注释

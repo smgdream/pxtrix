@@ -10,7 +10,6 @@ SRC = qoimg.c qoicodec.c
 DEP = $(HDR) $(SRC)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
 
-
 libqoi.a: .qoi.tmp
 	@printf "%s\t%s\n" AR $(DIRNAME)/$@
 	$(Q) $(AR) $@ $(OBJ)

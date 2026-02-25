@@ -119,5 +119,6 @@ Pgm *pgm_set(Pgm *p5, uint16_t width, uint16_t height);
 ### 空Pgm对象
 
 可对空Pgm对象进行的操作的函数是受限的，其合法操作函数有: `pgm_free`, `img2pgm`, `pgm_info`, `pgm_set`以及其它用户自己设计的合理合法的操作函数。  
+
 ## Know more
 - [PGM Specification (P5)](pgm-spec.md)

@@ -7,7 +7,7 @@ export ROOT = $(shell pwd)
 
 VPATH = $(ROOT)/include:lib2img:tools:libbmp:libqoi:libpgm:libfb:libca
 VERSION = $(shell cat VERSION)
-# Version for computer e.g. version[.dev_ver1.dev_ver2]
+# Version for computer e.g. version[.devver1.devver2]
 export VER_NUM = $(shell cat VERSION | sed 's/dev_/./g' | sed 's/-/./g'| sed 's/dev//g')
 
 # Default arguments
@@ -73,15 +73,19 @@ TAR_DIR = build
 TAR_INC = $(TAR_DIR)/include
 TAR_LIB = $(TAR_DIR)/lib
 
-.PHONY: lib clean cleanall dist count help lib2img libbmp libqoi libpgm libfb libca
+OBJ_TARS = pixel.o image.o render.o
+LIB_TARS = lib2img libbmp libqoi libpgm libfb libca
 
-release: main.o render.o image.o perf.o lib2img libbmp libqoi libpgm libfb libca
+.PHONY: lib clean distclean outclean dist count help $(LIB_TARS)
+
+release: main.o perf.o $(OBJ_TARS) $(LIB_TARS)
 	@printf "%s\t%s\n" LD $(TARGET)
 	$(Q) $(CC) $(CFLAGS) $(STATIC) -o $(TARGET) $(OBJ) $(LDFLAGS)
-lib: lib2img libbmp libqoi libpgm libfb libca image.o render.o
+
+lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s\n" AR libimg.a
-	$(Q) $(AR) libimg.a image.o
-	@printf "%s\t%s\n" AR librender.a
+	$(Q) $(AR) libimg.a image.o pixel.o
+	@printf "%s\t%s\n" AR libren.a
 	$(Q) $(AR) libren.a render.o
 
 	@printf "%s\n" MKDIR
@@ -120,9 +124,9 @@ lib: lib2img libbmp libqoi libpgm libfb libca image.o render.o
 		"-std=$(STDC) -Wall -Wextra -pedantic" \
 		"-I ./include -O2 -o test.run main.c" \
 		"ARCHIVE-FILES" \
-		"-lm -pthread" >> $(TAR_DIR)/USAGE
+		"-lm" >> $(TAR_DIR)/USAGE
 
-so_lib: image.o render.o lib2img_c libbmp_c libqoi_c libpgm_c libfb_c libca_c
+so_lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s\n" LD libpxtrix.so.$(VER_NUM) 
 	$(Q) find . -name "*.o" | xargs $(CC) -shared -o libpxtrix.so.$(VER_NUM) 
 	
@@ -168,11 +172,12 @@ so_lib: image.o render.o lib2img_c libbmp_c libqoi_c libpgm_c libfb_c libca_c
 	$(Q) printf "Win:\n%s %s %s %s\n" "gcc" \
 		"-std=$(STDC) -Wall -Wextra -pedantic" \
 		"-I ./include -O2 -o test.exe main.c lib/libpxtrix.so.$(VER_NUM)" \
-		"-lm -pthread" >> $(TAR_DIR)/USAGE
+		"-lm" >> $(TAR_DIR)/USAGE
 	$(Q) printf "cp lib/libpxtrix.so.$(VER_NUM) .\n"  >> $(TAR_DIR)/USAGE
 	
 
 so_proc_win:
+	# don't need to do anything
 	@printf ""
 	
 so_proc_lux:
@@ -184,66 +189,63 @@ main.o: main.c util.h perf.h image.h pixel.h bmpimg.h pgm.h pixel.h render.h ima
 	@printf "%s\t%s\n" CC $(shell echo $@ | sed 's/.o/.c/g')
 	$(Q) $(CC) $(CFLAGS) -o $@ -c main.c
 
+pixel.o: pixel.c pixel.h
+	@printf "%s\t%s\n" CC pixel.c
+	$(Q) $(CC) $(CFLAGS) -c -o $@ pixel.c
+
 render.o: render.c render.h image.h pixel.h
 	@printf "%s\t%s\n" CC $(shell echo $@ | sed 's/.o/.c/g')
-	$(Q) $(CC) $(CFLAGS) -o $@ -c render.c
+	$(Q) $(CC) $(CFLAGS) -c -o $@ render.c
 
 image.o: image.c image.h pixel.h
 	@printf "%s\t%s\n" CC $(shell echo $@ | sed 's/.o/.c/g')
-	$(Q) $(CC) $(CFLAGS) -o $@ -c image.c
+	$(Q) $(CC) $(CFLAGS) -c -o $@ image.c
 
 perf.o: perf.c perf.h
 	@printf "%s\t%s\n" CC tools/$(shell echo $@ | sed 's/.o/.c/g')
-	$(Q) $(CC) $(CFLAGS) -o $@ -c tools/perf.c $(PERF_LIB)
+	$(Q) $(CC) $(CFLAGS) -c -o $@ tools/perf.c $(PERF_LIB)
 
 libbmp:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C libbmp
-libbmp_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libbmp .bmp.tmp
 
 libqoi:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C libqoi
-libqoi_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libqoi .qoi.tmp
 
 libpgm:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C libpgm
-libpgm_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libpgm .pgm.tmp
 
 libfb:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C libfb
-libfb_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libfb .fb.tmp
 
 libca:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C libca
-libca_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libca .ca.tmp
 
 lib2img:
 	$(Q) $(MAKE) $(MAKE_FLAG) -C lib2img
-lib2img_c:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C lib2img .2img.tmp
 
-clean:
-	@printf "%s\t%s\n" RM "*.o *.a *.so"
+clean: outclean
+	@echo CLEAN
 	$(Q) find . -name "*.o" | xargs rm -f
-	$(Q) find . -name "*.a"		| grep -v "$(TAR_DIR)/" | xargs rm -f
+	$(Q) find . -name "*.a"	| grep -v "$(TAR_DIR)/" | xargs rm -f
 	$(Q) find . -name "*.so.$(VER_NUM)"	| grep -v "$(TAR_DIR)/" | xargs rm -f
-	$(Q) find . -name ".*.tmp"	| xargs rm -f
+	$(Q) find . -name ".*.tmp" | xargs rm -f
+	
 
 distclean: clean
-	@echo CLEAN
-	$(Q) find . -name "*.so.*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
+	@echo DISTCLEAN
 	$(Q) rm -f *.bmp
 	$(Q) rm -f *.qoi
 	$(Q) rm -f *.pgm
 	$(Q) rm -f *.png
+
+outclean: 
+	@printf "CLEAN\toutput files\n"
+	$(Q) find . -name "*.so.*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
+	$(Q) find . -name "*.run*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
+	$(Q) find . -name "*.out*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
+	$(Q) find . -name "*.exe*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
 	$(Q) rm -fr build
-	$(Q) rm -f pxtrix.run
-	$(Q) rm -f pxtrix.exe
-	
+
 dist:
 	@echo $(VERSION)
 	@printf "%s\t%s\n" CP "./ -> ../pxtrix-$(VERSION)"
@@ -266,4 +268,4 @@ count:
 	@cloc --exclude-ext=md,json --exclude-dir=luts,build,doc .
 
 help:
-	@awk '/# C version: C99/, /make count/' README.md
+	@awk '/Enviroment requirement/, /$ make count/' README.md

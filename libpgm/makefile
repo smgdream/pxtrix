@@ -5,11 +5,10 @@ CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
 DIRNAME = libpgm
-HDR = pgm.h image.h 
+HDR = pgm.h
 SRC = pgm.c
 DEP = $(HDR) $(SRC)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
-
 
 libpgm.a: .pgm.tmp
 	@printf "%s\t%s\n" AR $(DIRNAME)/$@

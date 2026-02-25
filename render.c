@@ -15,10 +15,11 @@ static inline int px_avg(Px_def *px)
 
 static inline uint8_t gray_px_cal(const Px_def *px)
 {
-	return (uint8_t)(
-		  0.30 * px->r
-		+ 0.59 * px->g
-		+ 0.11 * px->b
+	/* ITU-R BT.709-6 */
+	return (uint8_t) (
+		  0.2126 * px->r
+		+ 0.7152 * px->g
+		+ 0.0722 * px->b
 	);
 }
 
@@ -192,7 +193,7 @@ Image *invert(Image *img)
 
 typedef unsigned char Byte;
 
-Image *filp_v(Image *img)
+Image *flip_v(Image *img)
 {
 	if (img == NULL)
 		return NULL;

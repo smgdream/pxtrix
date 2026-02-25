@@ -1,5 +1,6 @@
 /* Licensed under the MIT License
  * Copyright (c) 2024 Smgdream */
+/* Depend on perf.c */
 
 #ifndef PERF_H
 #define PERF_H

@@ -29,10 +29,10 @@ Image *crop(Image *img, uint32_t x, uint32_t y, uint32_t wid, uint32_t hgt);
 Image *cat(Image *dest, const Image *src, uint32_t x, uint32_t y);
 /* Invert image.  */
 Image *invert(Image *img);
-/* Filp vertical */
-Image *filp_v(Image *img);
+/* Flip vertical */
+Image *flip_v(Image *img);
 /* Gamma correction */
-double adj_gamma(double gamma, double x);
+double gamma_cx(double gamma, double x);
 ```
 
 ## 函数详细说明
@@ -83,32 +83,31 @@ Image *scale(Image *img, uint32_t wid, uint32_t hgt);
 ```c
 Image *crop(Image *img, uint32_t x, uint32_t y, uint32_t wid, uint32_t hgt);
 ```
-`crop`裁剪图像，选取`img`从(x, y)开始的宽`wid`高`hgt`的图像区域(i.e. (x, y)->(x+wid-1, y+hgt-1))。返回`img`，出错则返回`NULL`.
+`crop`裁剪图像，选取`img`从(x, y)开始的宽`wid`高`hgt`的图像区域(i.e. (x, y)->(x+wid-1, y+hgt-1))。返回`img`，出错则返回`NULL`.  
 <br>
 
 ```c
 Image *cat(Image *dest, const Image *src, uint32_t x, uint32_t y);
 ```
-`cat`重叠或拼接图像，将源图像(`src`)重叠/拼接到目标图像上(`dest`)，源图像的原点在目标图像上的位置由参数(`x`, `y`)控制（底层图像（目标图像）和上层图像（源图像）均以对应图像的左下角像素为相对原点），源图像超出目标图像边界的部分将会被截断。返回`dest`，若出错则返回`NULL`.（待完善）
+`cat`重叠或拼接图像，将源图像(`src`)重叠/拼接到目标图像上(`dest`)，源图像的原点在目标图像上的位置由参数(`x`, `y`)控制（底层图像（目标图像）和上层图像（源图像）均以对应图像的左下角像素为相对原点），源图像超出目标图像边界的部分将会被截断。返回`dest`，若出错则返回`NULL`.（待完善）  
 <br>
 
 ```c
 Image *invert(Image *img);
 ```
-`invert`图像颜色反转（即负片）。返回`img`，若出错则返回`NULL`.
+`invert`图像颜色反转（即负片）。返回`img`，若出错则返回`NULL`.  
 <br>
 
 ```c
-Image *filp_v(Image *img)
+Image *flip_v(Image *img);
 ```
-`filp_v`垂直翻转图像。返回`img`,出错则返回`NULL`.
+`flip_v`将图片上下翻转.  
 <br>
 
 ```c
-double adj_gamma(double gamma, double x);
+double gamma_cx(double gamma, double x);
 ```
-`adj_gamma`伽马校正函数，`gamma`: 伽马值，`x`: 输入，`x`的定义域为\[0, 1\]。返回x^gamma, 其值域为\[0, 1\].
-<br>
+`gamma_cx`函数用于伽马校正。`x`为待校正的输入，其定义域为`[0, 1]`，`gamme`为伽马值.  
 
 ## Colour Lookup Table
 Available at: [Color Lookup Table](lut.md)

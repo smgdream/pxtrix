@@ -289,49 +289,105 @@
 	2.	tmath修改了bezier_s的实现（理论上其应当更加高效）
 	3.	完善有关img_info的注释
 2025-05-06
-	1. doc: 微调readme
-	2. doc: tmath添加有关*lerp函数的内容
+	1.	doc: 微调readme
+	2.	doc: tmath添加有关*lerp函数的内容
 2025-05-07
-	1. doc: 改进render文档中对cat函数的描述
-	2. doc: 微调readme
+	1.	doc: 改进render文档中对cat函数的描述
+	2.	doc: 微调readme
 2025-05-08
-	1. doc: 更新pxtrix.md的Pxtrix架构示意图
+	1.	doc: 更新pxtrix.md的Pxtrix架构示意图
 2025-05-14
-	1. render新增filp_v函数用于垂直翻转图像，并微调render.md
-	2. 改进perf.h中的注释
-	3. 将time_step的返回值类型更改为uint64_t并修改头文件和文档中的相关内容
-	4. 修复因render缺少部分头文件而造成的编译错误
+	1.	render新增filp_v函数用于垂直翻转图像，并微调render.md
+	2.	改进perf.h中的注释
+	3.	将time_step的返回值类型更改为uint64_t并修改头文件和文档中的相关内容
+	4.	修复因render缺少部分头文件而造成的编译错误
 2025-06-10
-	1. 将有参数为精确宽度整数类型的printf家族的fmt参数中，与精确宽度整数类型对应的转换说明
+	1.	将有参数为精确宽度整数类型的printf家族的fmt参数中，与精确宽度整数类型对应的转换说明
 		里的转换字符改为宏PRI?N，改进了代码移植性令其在各种机器中可以正确输出数据
 2025-06-23
-	1. bug: 修复读取无法正常推断fb分辨率的问题（__fb_file_size函数代码写错了，通过cppcheck分析发现）
+	1.	fix: 修复读取无法正常推断fb分辨率的问题（__fb_file_size函数代码写错了，通过cppcheck分析发现）
 2025-07-04
-	1. 将函数名in_mandelbrot重命名为为更合理的nbl2mandelbrot
-	2. tmath添加sgn函数并添加对应文档说明
-	3. 改进tmath的注释
+	1.	将函数名in_mandelbrot重命名为为更合理的nbl2mandelbrot
+	2.	tmath添加sgn函数并添加对应文档说明
+	3.	改进tmath的注释
 2025-07-05
-	1. fbdev.h中添加枚举fbdev_flags并在文档中添加对应内容
-	2. doc: 修改fbdev文档中的与fb_new相关的过时内容
-	3. 删除多余的fb_dev_flags枚举
-	4. 新的示例可交互mandelbrot set查看器 （仅linux可用）
+	1.	fbdev.h中添加枚举fbdev_flags并在文档中添加对应内容
+	2.	doc: 修改fbdev文档中的与fb_new相关的过时内容
+	3.	删除多余的fb_dev_flags枚举
+	4.	新的示例可交互mandelbrot set查看器 （仅linux可用）
 2025-07-06
-	1. 微调rander.c
-	2. fix: 修复make时MKDOC编译信息输出末尾缺少换行的问题
-	3. 为可交互mandelbrot set查看器添加多线程支持
+	1.	微调rander.c
+	2.	fix: 修复make时MKDOC编译信息输出末尾缺少换行的问题
+	3. 	为可交互mandelbrot set查看器添加多线程支持
 2025-07-07
-	1. 将perf的计时方式调整为基于物理时间的微秒级计时
-	2. 将make的cleanall子命令重命名为distclean并调整相关文档内容
-	3. 取消将pxtrix编译为静态库的实验性状态（将pxtrix编译为静态库成为正式功能）
-	4. 微调minorch
-	5. 微调readme
-	6. 将可交互mandelbrot set查看器命名为mandelbrot set viewer
-	7. 完善mandelbrot set viewer
-2025-07-08
-	1. render添加伽马校正函数并于文档中添加相关内容
-	2. mandelbrot set viewer添加参数用于设置伽马校正系数
-	3. 微调mandelbrot set viewer
-	4. doc: 补充与filp_v相关的文档及注释
-	5. 微调tmath.md
-2025-07-15
-	1. 微调mandelbrot set viewer
+	1.	将perf的计时方式调整为基于物理时间的微秒级计时
+	2.	将make的cleanall子命令重命名为distclean并调整相关文档内容
+	3.	取消将pxtrix编译为静态库的实验性状态（pxtrix编译为静态库成为正式功能）
+	4.	微调minorch
+	5.	微调readme
+	6.	将可交互mandelbrot set查看器命名为mandelbrot set viewer
+	7.	完善mandelbrot set viewer
+
+
+0.2.3
+
+2026-02-14
+	1.	添加了HSVA色彩模型的像素的支持
+	2.	tmath增加了max, max3, min, min3取最大最小值函数（宏）
+	3.	新增文件pixel.c，当前其中包含rgba2hsva函数和hsva2rgba函数用于RGBA色彩模型的像素和
+		HSVA色彩模型像素的相互转换
+2026-02-17
+	1.	优化make help帮助信息的显示
+	2.	为struct px_rgba_32bit添加新别名Px_rgba
+	3.	将struct px_hsva重命名为struct px_hsva_float
+	4.	为struct px_hsva_float添加新别名Px_hsva_float和Px_hsva_f
+	5.	fix: 修复rgba2hsva的算法错误
+	6.	fix: 修复hsva2rgba的算法错误
+	7.	doc:添加了Pixel模块相对应的文档
+	8.	为pixel.h和pixel.c添加注释
+	9.	doc: 对与Pxtrix文档和Image文档进行和Pixel文档有关的调整
+	10.	根据BT.709规范修改render默认内置像素灰度化算法gray_px_cal的各通道的映射权重
+2026-02-18
+	1.	fix: 修复当rgba像素色彩为灰阶色彩时rgba2hsva函数将其映射成黑色的映射错误
+	2.	测试了RGBA->HSVA->RGBA转换的色彩微偏率，并在相应文档和注释中增添了相关描述
+	3.	令make distclean命令可删除项目根目录下（不含子目录）所有的exe文件和run文件
+2026-02-20
+	1.	微调代码与注释
+	2.	加强对C99的依赖
+	3.	确定polar_r和polar_t函数返回值的范围，并在关联注释和文档中添加相关内容
+	4.	微调main.c
+	5.	规范rgba2hsva函数和hsva2rgba函数的参数类型
+2026-02-21
+	1.	将错误的函数名filp_v重命名为其正确的名称flip_v
+	2.	doc: 为flip_v函数添加相应的注释和文档内容
+	3.	将adj_gamma函数重命名为gamma_cx
+	4.	doc: 添加gamma_cx函数对应的注释和文档
+2026-02-22
+	1.	调整makefile文件内容
+	2.	调整make构建库时生成的USAGE的内容
+	3.	完善了和Pixel模块相关的makefile配置
+	4.	将doc目录重命名为docs
+	5.	doc: 更正example文档中错误的单词gamut->gamma
+	6.	doc: 调整example文档的内容
+	8.	将之前的main.c纳入examples中并将其重命名为mdb_intact
+	9.	doc: 在example文档中编写有关mdb_intact的内容
+	10.	fix: 将mdb_intact所使用的伽马校正函数名更正为gamma_cx
+	11.	fix: 为mdb_intact的tcall_draw_mandelbrot_line函数补上返回语句
+	12.	fix: 更正mdb_intact错误的色彩映射计算语句
+	13.	fix: mdb_intact重新添加误删的伽马值设置语句
+	14.	微调mdb_intact的注释
+	15.	微调mdb_intact的代码
+	16.	改进pxtrix.md的note部分的内容
+2026-02-23
+	1.	将make clean的行为调整至清理所有构建时产生的文件和最终构建文件
+	2.	调整make clean的输出简略信息的内容
+	3.	更新过时的伪目标名
+	4.	添加outclean伪目标
+	5.	避免重复构建时出现错误提示
+	6.	fix: 修复使用构建而得的动态库出现函数定义缺失的问题
+	7.	删除所有lib*_c伪目标
+	8.	删除部分makefile目标对image.h多余的依赖
+2026-02-24
+	1.	为perf.h添加注释
+	2.	为pic2img的makefile添加pixel.h依赖
+	3.	调整readme的compile段落的格式和内容并调整排版及调整相关makefile配置

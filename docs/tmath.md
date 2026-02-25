@@ -57,7 +57,7 @@ double lerp(double a, double b, double t);
 double sgn(double x);
 ```
 ```c
-/* Vector2 function */
+/* Vectors function */
 
 double vec2_mod(Vec2 v);
 Vec2 vec2_add(Vec2 a, Vec2 b);
@@ -100,13 +100,13 @@ double polar_y(double r, double t);
 ```c
 double polar_r(double x, double y);
 ```
-求直角坐标(x, y)对应的极坐标radius值。  
+求直角坐标(x, y)对应的极坐标radius值，该函数的值域为`[0, +inf)`。  
 <br>
 
 ```c
 double polar_t(double x, double y);
 ```
-求直角坐标(x, y)对应的极坐标theta值。  
+求直角坐标(x, y)对应的极坐标theta值，该函数的值域为`[0, 2Pi)`。  
 <br>
 
 ### Useful functions

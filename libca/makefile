@@ -10,6 +10,7 @@ SRC = chart.c
 DEP = $(HDR) $(SRC)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
 
+.PHONY: compile
 
 libca.a: .ca.tmp
 	@printf "%s\t%s\n" AR $(DIRNAME)/$@

@@ -33,18 +33,13 @@ Image *crop(Image *img, uint32_t x, uint32_t y, uint32_t wid, uint32_t hgt);
 Image *cat(Image *dest, const Image *src, uint32_t x, uint32_t y);
 /* Invert image.  */
 Image *invert(Image *img);
-/* Filp vertical */
-Image *filp_v(Image *img);
+Image *flip_v(Image *img);
 
-/* Gamma correction
-   domain of definition of x: [0, 1]
-   range of return value: [0, 1]  */
-static inline double adj_gamma(double gamma, double x)
+/* Gamma correction. domain of x: [0, 1]  */
+static inline double gamma_cx(double gamma, double x)
 {
-	// if gamma < 0 and x = 0
 	return pow(x, gamma);
 }
-
 
 #define ct_x(x, img) ((uint32_t) ( (x) * 100.0 + ((img)->width >> 1) ))
 #define ct_y(y, img) ((uint32_t) ( (y) * 100.0 + ((img)->height >> 1) ) )

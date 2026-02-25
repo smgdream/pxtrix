@@ -79,7 +79,7 @@ uint64_t time_all(void)
  * [5] IEEE/Open Group Standard for Information Technology--Portable Operating System
  * 	   Interface (POSIX™) Base Specifications, Issue 8 Vol. 1: Base Definitions
  * 	   Chapter 14 (Headers) <time.h> p.452-453
- * Windows:
+ * Windows
  * [6] Acquiring high-resolution time stamps. Available: https://learn.microsoft.com/en-us/
  * 	   windows/win32/sysinfo/acquiring-high-resolution-time-stamps
  * [7] QueryPerformanceCounter function (profileapi.h). Available: https://learn.microsoft.com/

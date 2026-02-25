@@ -5,11 +5,10 @@ CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = .
 
 DIRNAME = libfb
-HDR = fbdev.h image.h 
+HDR = fbdev.h
 SRC = fbdev.c fb_dev_info.c
 DEP = $(HDR) $(SRC)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
-
 
 libfb.a: .fb.tmp
 	@printf "%s\t%s\n" AR $(DIRNAME)/$@
