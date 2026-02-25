@@ -12,7 +12,7 @@ int main(void)
 	
 	uint32_t img_x = 0, img_y = 0;
 	img_for_px(img_x, img_y, 0, 0, img->width, img->height) {
-		/* must cast img_x and img_y to double */
+		/* must cast img_x and img_y to double  */
 		double x = (double) img_x - img->width / 2;
 		double y = (double) img_y - img->height / 2;
 		double r = polar_r(x, y);
