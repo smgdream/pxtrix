@@ -1,116 +1,139 @@
-# You can modify the value of CC to change the compiler
-export CC = gcc
-export AR = ar -crs
+# SPDX-License-Identifier: MIT
 
+# You can modify the value of CC to change the default compiler
+export CC = gcc
+ifeq ($(CC), tcc)
+	export AR = tcc -ar crs
+else
+	export AR = ar -crs
+endif
+
+# set C version
 export STDC = c99
 export ROOT = $(shell pwd)
 
-VPATH = $(ROOT)/include:lib2img:tools:libbmp:libqoi:libpgm:libfb:libca
+AMODS_DIR = addmods
+VPATH = $(ROOT)/include:util:luts:lib2img:$(AMODS_DIR)/libbmp:$(AMODS_DIR)/libqoi: \
+		$(AMODS_DIR)/libpgm:$(AMODS_DIR)/libfb:$(AMODS_DIR)/libca
 VERSION = $(shell cat VERSION)
-# Version for computer e.g. version[.devver1.devver2]
+# in: "version[dev_devver1-devver2]" -> process() -> out: "version[.devver1.devver2]"
 export VER_NUM = $(shell cat VERSION | sed 's/dev_/./g' | sed 's/-/./g'| sed 's/dev//g')
 
 # Default arguments
 # verbose flag
 V = 0
 # static flag
-S = 1
+ifeq ($(shell uname -s), Linux)
+	S = 1
+else
+	S = 0
+endif
+
+# debug flag
+DEBUG = 0
 
 # Set verbose yes or not
-ifeq ($(V), 1)
-	Q_FLAG = 0
-else
-	Q_FLAG = 1
-endif
-ifeq ($(Q_FLAG), 1)
+ifeq ($(V), 0)
 	export Q = @
-	export MAKE_FLAG = --no-print-directory
+	export MAKE_FLAGS = --no-print-directory
+	# line delete: make * is up to date
+	UP_DEL= | sed '/is up to date./d'
+endif
+
+# set debug flags
+ifeq ($(DEBUG), 0)
+	DEBUG_FLAGS = -D NDEBUG
+	OPT_LV=-O2
 else
-	export Q =
-	export MAKE_FLAG =
+	DEBUG_FLAGS = -D DEBUG -g2
+	OPT_LV=-Og
 endif
 
 # Set the suffix of target binary file
 ifeq ($(shell uname -s), Windows_NT)
 	SUFF = exe
-	SO_PROC = so_proc_win
+	LIB_PROC = lib_proc_win
+	SO_PROC = so_lib_proc_win
 else
 	SUFF = run
-	SO_PROC = so_proc_lux
-	PERF_LIB = -lrt
+	LIB_PROC = lib_proc_lux
+	SO_PROC = so_lib_proc_lux
+	FAKEROOT=fakeroot
 endif
 
-# Set args dep on compile
-ifeq ($(CC), tcc)
-# Is tcc
+# Set args dep on compiler
+ifeq ($(CC), tcc) # Is tcc
 	ifeq ($(shell uname -s), Linux)
 		LIBMATH = -lm
 	else
 		LIBMATH =
 	endif
-	export STATIC = 
 	TCC_BASE_CFLAGS =
-else
-# Is not tcc
+else # Is not tcc
 	LIBMATH = -lm
 	ifeq ($(S), 1)
-		export STATIC = -static
+		STATIC = -static
 	endif
 	TCC_BASE_CFLAGS =
 endif
 
 
 
-INCLUDE = -I ./include -I ./lib2img -I ./libbmp -I ./libqoi -I ./libpgm -I ./libfb -I ./libca
-export INC = -I $(ROOT)/pic2img -I $(ROOT)/libbmp -I $(ROOT)/libqoi -I $(ROOT)/libpgm -I $(ROOT)/libfb -I $(ROOT)/libca
-export BASE_CFLAGS = -std=$(STDC) -Wall -Wextra -pedantic $(TCC_BASE_CFLAGS)  -fPIC
-CFLAGS := -O2 $(BASE_CFLAGS) $(INCLUDE)
+INCLUDE = -I include -I lib2img -I $(AMODS_DIR)/libbmp -I $(AMODS_DIR)/libqoi \
+		  -I $(AMODS_DIR)/libpgm -I $(AMODS_DIR)/libfb -I $(AMODS_DIR)/libca
+export INC = -I $(ROOT)/pic2img -I $(ROOT)/$(AMODS_DIR)/libbmp \
+			 -I $(ROOT)/$(AMODS_DIR)/libqoi -I $(ROOT)/$(AMODS_DIR)/libpgm \
+			 -I $(ROOT)/$(AMODS_DIR)/libfb -I $(ROOT)/$(AMODS_DIR)/libca
+export BASE_CFLAGS = -std=$(STDC) -Wall -Wextra -pedantic $(TCC_BASE_CFLAGS) -fPIC \
+					 $(OPT_LV) $(DEBUG_FLAGS)
+CFLAGS := $(BASE_CFLAGS) $(INCLUDE)
 LDFLAGS = $(LIBMATH) -pthread
 
-OBJ = main.o render.o perf.o image.o lib2img/lib2img.a libbmp/libbmp.a libqoi/libqoi.a libpgm/libpgm.a libfb/libfb.a libca/libca.a
+
 TARGET = pxtrix.$(SUFF)
 TAR_DIR = build
 TAR_INC = $(TAR_DIR)/include
 TAR_LIB = $(TAR_DIR)/lib
 
-OBJ_TARS = pixel.o image.o render.o
+OBJ_TARS = pixel.o image.o render.o util.o perf.o
 LIB_TARS = lib2img libbmp libqoi libpgm libfb libca
+USAGE_FILE = $(TAR_DIR)/USAGE.md
 
-.PHONY: lib clean distclean outclean dist count help $(LIB_TARS)
+.PHONY: release test lib lib_proc_win lib_proc_lux \
+		so_lib so_lib_proc_win so_lib_proc_lux \
+		clean distclean outclean dist count help $(LIB_TARS)
 
-release: main.o perf.o $(OBJ_TARS) $(LIB_TARS)
+OBJ = main.o build/lib/libpxtrix.a.*
+release: lib main.o
 	@printf "%s\t%s\n" LD $(TARGET)
 	$(Q) $(CC) $(CFLAGS) $(STATIC) -o $(TARGET) $(OBJ) $(LDFLAGS)
 
 lib: outclean $(LIB_TARS) $(OBJ_TARS)
-	@printf "%s\t%s\n" AR libimg.a
-	$(Q) $(AR) libimg.a image.o pixel.o
-	@printf "%s\t%s\n" AR libren.a
-	$(Q) $(AR) libren.a render.o
+	@printf "%s\t%s\n" AR libpxtrix.a.$(VER_NUM)
+	$(Q) find -name "*.o" | xargs $(AR) libpxtrix.a.$(VER_NUM)
 
-	@printf "%s\n" MKDIR
+	@printf "%s\t%s\n" MKDIR "build/{lib,include/lut}"
 	$(Q)- mkdir $(TAR_DIR)
 	$(Q)- mkdir $(TAR_LIB)
 	$(Q)- mkdir $(TAR_INC)
 	$(Q)- mkdir $(TAR_INC)/luts
 
-	@printf "%s\t%s -> %s\n" CP archive-files $(TAR_LIB)
-	$(Q) find . -name "*.a" | grep -v "$(TAR_DIR)/" | xargs -I src cp src $(TAR_LIB)
+	@printf "%s\t%s -> %s\n" CP libpxtrix.a.$(VER_NUM) $(TAR_LIB)
+	$(Q) cp libpxtrix.a.$(VER_NUM) $(TAR_LIB)
+
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C . $(LIB_PROC)
 
 	@printf "%s\t%s -> %s\n" CP header-file $(TAR_INC)
-	$(Q) cp -r include/*.h		$(TAR_INC)
-	$(Q) cp lib2img/pic2img.h	$(TAR_INC)
-	$(Q) cp libbmp/bmpimg.h		$(TAR_INC)
-	$(Q) cp libqoi/qoimg.h		$(TAR_INC)
-	$(Q) cp libpgm/pgm.h		$(TAR_INC)
-	$(Q) cp libfb/fbdev.h		$(TAR_INC)
-	$(Q) cp libca/chart.h		$(TAR_INC)
+	$(Q) cp -r include/*.h					$(TAR_INC)
+	$(Q) cp lib2img/pic2img.h				$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libbmp/bmpimg.h	$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libqoi/qoimg.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libpgm/pgm.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libfb/fbdev.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libca/chart.h		$(TAR_INC)
 	
-	@printf "%s\t%s -> %s\n" CP luts/\lut_\*.h $(TAR_INC)/luts
-	$(Q) cp -r luts/lut_*.h $(TAR_INC)/luts
-
-	@printf "%s\t%s -> %s\n" CP tools/perf.c $(TAR_DIR)
-	$(Q) cp tools/perf.c $(TAR_DIR)
+	@printf "%s\t%s -> %s\n" CP luts/\lut\*.h $(TAR_INC)/luts
+	$(Q) cp -r luts/lut*.h $(TAR_INC)/luts
 
 	@printf "%s\t%s -> %s\n" CP LICENSE $(TAR_DIR)
 	$(Q) cp LICENSE $(TAR_DIR)
@@ -118,19 +141,49 @@ lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s -> %s\n" CP VERSION $(TAR_DIR)
 	$(Q) cp VERSION $(TAR_DIR)
 
-	@printf "%s\t%s\n" MKDOC $(TAR_DIR)/USAGE
-	$(Q) printf "Usage:\n" > $(TAR_DIR)/USAGE
-	$(Q) printf "%s %s %s %s %s\n" "gcc" \
+	@printf "%s\t%s\n" MKDOC $(USAGE_FILE)
+	$(Q) printf "# Usage\n\n" > $(USAGE_FILE)
+	$(Q) printf "## Linux\n" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`sh\n" >> $(USAGE_FILE)
+	$(Q) printf "%s %s %s %s %s\n" \
+		"gcc" \
 		"-std=$(STDC) -Wall -Wextra -pedantic" \
-		"-I ./include -O2 -o test.run main.c" \
-		"ARCHIVE-FILES" \
-		"-lm" >> $(TAR_DIR)/USAGE
+		"-I INCLUDE_DIR -O2 -o main.run main.c" \
+		"-L LIBRARY_DIR -lpxtrix" \
+		"-lm" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`\n\n" >> $(USAGE_FILE)
+
+	$(Q) printf "## Win\n" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`bat\n" >> $(USAGE_FILE)
+	$(Q) printf "%s %s %s %s\n" \
+		"gcc" \
+		"-std=$(STDC) -Wall -Wextra -pedantic" \
+		"-I INCLUDE_DIR -O2 -o main.exe main.c" \
+		"libpxtrix.a.$(VER_NUM)" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`\n\n" >> $(USAGE_FILE)
+
+	$(Q) printf "## example\n" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`sh\n" >> $(USAGE_FILE)
+	$(Q) printf "%s %s %s %s %s\n" \
+		"gcc" \
+		"-std=$(STDC) -Wall -Wextra -pedantic" \
+		"-I build/include -O2 -o main.run main.c" \
+		"-L build/lib -lpxtrix" \
+		"-lm" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`\n" >> $(USAGE_FILE)
+
+lib_proc_win: # don't need to do anything
+	@printf ""
+	
+lib_proc_lux:
+	@printf "%s\t%s -> %s\n" LINK libpxtrix.a libpxtrix.a.$(VER_NUM)
+	$(Q) ln -s libpxtrix.a.$(VER_NUM) $(TAR_LIB)/libpxtrix.a
 
 so_lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s\n" LD libpxtrix.so.$(VER_NUM) 
 	$(Q) find . -name "*.o" | xargs $(CC) -shared -o libpxtrix.so.$(VER_NUM) 
 	
-	@printf "%s\n" MKDIR
+	@printf "%s\t%s\n" MKDIR "build/{lib,include/lut}"
 	$(Q)- mkdir $(TAR_DIR)
 	$(Q)- mkdir $(TAR_LIB)
 	$(Q)- mkdir $(TAR_INC)
@@ -139,22 +192,19 @@ so_lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s -> %s\n" CP libpxtrix.so.$(VER_NUM) $(TAR_LIB)
 	$(Q) cp libpxtrix.so.$(VER_NUM) $(TAR_LIB)
 
-	$(Q) $(MAKE) $(MAKE_FLAG) -C . $(SO_PROC)
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C . $(SO_PROC)
 
 	@printf "%s\t%s -> %s\n" CP header-file $(TAR_INC)
-	$(Q) cp -r include/*.h		$(TAR_INC)
-	$(Q) cp lib2img/pic2img.h	$(TAR_INC)
-	$(Q) cp libbmp/bmpimg.h		$(TAR_INC)
-	$(Q) cp libqoi/qoimg.h		$(TAR_INC)
-	$(Q) cp libpgm/pgm.h		$(TAR_INC)
-	$(Q) cp libfb/fbdev.h		$(TAR_INC)
-	$(Q) cp libca/chart.h		$(TAR_INC)
+	$(Q) cp -r include/*.h					$(TAR_INC)
+	$(Q) cp lib2img/pic2img.h				$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libbmp/bmpimg.h	$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libqoi/qoimg.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libpgm/pgm.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libfb/fbdev.h		$(TAR_INC)
+	$(Q) cp $(AMODS_DIR)/libca/chart.h		$(TAR_INC)
 
-	@printf "%s\t%s -> %s\n" CP luts/\lut_\*.h $(TAR_INC)/luts
-	$(Q) cp -r luts/lut_*.h $(TAR_INC)/luts
-
-	@printf "%s\t%s -> %s\n" CP tools/perf.c $(TAR_DIR)
-	$(Q) cp tools/perf.c $(TAR_DIR)
+	@printf "%s\t%s -> %s\n" CP "luts/lut*.h" $(TAR_INC)/luts
+	$(Q) cp -r luts/lut*.h $(TAR_INC)/luts
 
 	@printf "%s\t%s -> %s\n" CP LICENSE $(TAR_DIR)
 	$(Q) cp LICENSE $(TAR_DIR)
@@ -162,27 +212,35 @@ so_lib: outclean $(LIB_TARS) $(OBJ_TARS)
 	@printf "%s\t%s -> %s\n" CP VERSION $(TAR_DIR)
 	$(Q) cp VERSION $(TAR_DIR)
 
-	@printf "%s\t%s\n" MKDOC $(TAR_DIR)/USAGE
-	$(Q) printf "Usage:\n\n" > $(TAR_DIR)/USAGE
-	$(Q) printf "Linux:\n%s %s %s %s %s\n\n" "gcc" \
+	@printf "%s\t%s\n" MKDOC $(USAGE_FILE)
+	$(Q) printf "# Usage\n\n" > $(USAGE_FILE)
+	$(Q) printf "## Linux\n" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`sh\n" >> $(USAGE_FILE)
+	$(Q) printf "%s %s %s %s %s\n" \
+		"gcc" \
 		"-std=$(STDC) -Wall -Wextra -pedantic" \
-		"-I ./include -L ./lib -Wl,-rpath='./lib/' -O2" \
-		"-o test.run main.c " \
-		"-lpxtrix -lm -pthread" >> $(TAR_DIR)/USAGE
-	$(Q) printf "Win:\n%s %s %s %s\n" "gcc" \
+		"-I include -O2 -o test.run main.c" \
+		"-Wl,-rpath='relative/path/to/libpxtrix.so_s_directory'" \
+		"-L lib -lpxtrix -lm" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`\n\n" >> $(USAGE_FILE)
+
+	$(Q) printf "## Win\n" >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`bat\n" >> $(USAGE_FILE)
+	$(Q) printf "%s %s %s %s\n" \
+		"gcc" \
 		"-std=$(STDC) -Wall -Wextra -pedantic" \
-		"-I ./include -O2 -o test.exe main.c lib/libpxtrix.so.$(VER_NUM)" \
-		"-lm" >> $(TAR_DIR)/USAGE
-	$(Q) printf "cp lib/libpxtrix.so.$(VER_NUM) .\n"  >> $(TAR_DIR)/USAGE
+		"-I include -O2 -o test.exe main.c" \
+		"lib/libpxtrix.so.$(VER_NUM)" >> $(USAGE_FILE)
+	$(Q) printf "cp lib/libpxtrix.so.$(VER_NUM) .\n"  >> $(USAGE_FILE)
+	$(Q) printf "\`\`\`\n" >> $(USAGE_FILE)
 	
 
-so_proc_win:
-	# don't need to do anything
+so_lib_proc_win: # don't need to do anything
 	@printf ""
 	
-so_proc_lux:
+so_lib_proc_lux:
 	@printf "%s\t%s -> %s\n" LINK libpxtrix.so libpxtrix.so.$(VER_NUM)
-	$(Q) ln -s libpxtrix.so.$(VER_NUM)	$(TAR_LIB)/libpxtrix.so
+	$(Q) ln -s libpxtrix.so.$(VER_NUM) $(TAR_LIB)/libpxtrix.so
 	
 
 main.o: main.c util.h perf.h image.h pixel.h bmpimg.h pgm.h pixel.h render.h image.h
@@ -202,33 +260,42 @@ image.o: image.c image.h pixel.h
 	$(Q) $(CC) $(CFLAGS) -c -o $@ image.c
 
 perf.o: perf.c perf.h
-	@printf "%s\t%s\n" CC tools/$(shell echo $@ | sed 's/.o/.c/g')
-	$(Q) $(CC) $(CFLAGS) -c -o $@ tools/perf.c $(PERF_LIB)
+	@printf "%s\t%s\n" CC util/$(shell echo $@ | sed 's/.o/.c/g')
+	$(Q) $(CC) $(CFLAGS) -c -o util/$@ util/perf.c
+
+util.o: util.c util.h
+	@printf "%s\t%s\n" CC util/$(shell echo $@ | sed 's/.o/.c/g')
+	$(Q) $(CC) $(CFLAGS) -c -o util/$@ util/util.c
 
 libbmp:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libbmp
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C $(AMODS_DIR)/libbmp .cc_bmpimg $(UP_DEL)
 
 libqoi:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libqoi
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C $(AMODS_DIR)/libqoi .cc_qoimg $(UP_DEL)
 
 libpgm:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libpgm
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C $(AMODS_DIR)/libpgm .cc_pgm $(UP_DEL)
 
 libfb:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libfb
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C $(AMODS_DIR)/libfb .cc_fbdev $(UP_DEL)
 
 libca:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C libca
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C $(AMODS_DIR)/libca .cc_chart $(UP_DEL)
 
 lib2img:
-	$(Q) $(MAKE) $(MAKE_FLAG) -C lib2img
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C lib2img .cc_pic2img $(UP_DEL)
+
+test:
+	$(Q) echo Testing start
+	$(Q) echo
+	$(Q) rm -f tests/*.out tests/*.exe tests/tmp/*.bmp tests/tmp/*.qoi tests/tmp/*.pgm
+	$(Q) $(MAKE) $(MAKE_FLAGS) -C tests
 
 clean: outclean
 	@echo CLEAN
 	$(Q) find . -name "*.o" | xargs rm -f
 	$(Q) find . -name "*.a"	| grep -v "$(TAR_DIR)/" | xargs rm -f
-	$(Q) find . -name "*.so.$(VER_NUM)"	| grep -v "$(TAR_DIR)/" | xargs rm -f
-	$(Q) find . -name ".*.tmp" | xargs rm -f
+	$(Q) find . -name ".cc_*" | xargs rm -f
 	
 
 distclean: clean
@@ -237,10 +304,13 @@ distclean: clean
 	$(Q) rm -f *.qoi
 	$(Q) rm -f *.pgm
 	$(Q) rm -f *.png
+	$(Q) rm -f tests/tmp/*.qoi
+	$(Q) rm -f tests/tmp/*.pgm
 
 outclean: 
 	@printf "CLEAN\toutput files\n"
 	$(Q) find . -name "*.so.*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
+	$(Q) find . -name "*.a.*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
 	$(Q) find . -name "*.run*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
 	$(Q) find . -name "*.out*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
 	$(Q) find . -name "*.exe*"	| grep -v "$(TAR_DIR)/" | xargs rm -f
@@ -259,13 +329,18 @@ dist:
 	$(Q) rm -f ../pxtrix-$(VERSION)/*.run
 	$(Q) rm -f ../pxtrix-$(VERSION)/*.exe
 	$(Q) rm -fr ../pxtrix-$(VERSION)/.vscode
+	$(Q) rm -fr ../pxtrix-$(VERSION)/test
+	$(Q) rm -fr ../pxtrix-$(VERSION)/tools
+	$(Q) rm -fr ../pxtrix-$(VERSION)/tests/tmp/*
+	$(Q) rm -fr ../pxtrix-$(VERSION)/tests/pictures/*
 	@printf "%s\t%s\n" TAR "../pxtrix-$(VERSION).tar.xz"
-	$(Q) tar -caf ../pxtrix-$(VERSION).tar.xz --exclude=../pxtrix-$(VERSION)/.vscode ../pxtrix-$(VERSION)
+	$(Q) $(FAKEROOT) tar -caf ../pxtrix-$(VERSION).tar.xz \
+		--exclude=../pxtrix-$(VERSION)/.vscode ../pxtrix-$(VERSION)
 	@printf "%s\t%s\n" RM "../pxtrix-$(VERSION)"
 	$(Q) rm -rf ../pxtrix-$(VERSION)
 
 count:
-	@cloc --exclude-ext=md,json --exclude-dir=luts,build,doc .
+	@cloc --exclude-ext=md,json --exclude-dir=build,docs,test,tests,tools .
 
 help:
-	@awk '/Enviroment requirement/, /$ make count/' README.md
+	@awk '/Enviroment requirement/, /Count lines of code/' README.md

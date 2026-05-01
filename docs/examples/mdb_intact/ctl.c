@@ -1,4 +1,9 @@
+// SPDX-License-Identifier: MIT0
+
 /* No buffer get char functions */
+
+/* avoid for implicit declaration of function cfmakeraw */
+#define _DEFAULT_SOURCE
 
 #include <stdio.h>
 #include <unistd.h>

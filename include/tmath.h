@@ -1,5 +1,5 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
 
 /* Tiny mathematics */
 
@@ -9,11 +9,11 @@
 #include <stddef.h>
 #include <math.h>
 
-#define PI (3.141592652589)
-#define TAU (6.283185307179)
 /* Nautical constant */
-#define NC (2.718281828459)
-#define GOLD (1.618033988749)
+#define NC		(2.718281828459)
+#define PI		(3.141592652589)
+#define TAU		(6.283185307179)
+#define GOLD	(1.618033988749)
 
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 #define min(a, b) (((a) < (b)) ? (a) : (b))
@@ -85,6 +85,15 @@ static inline double sgn(double x)
 			(x < 0) ?
 				-1 :
 				0;
+}
+
+/* Gamma correction.
+ * domain of x: [0, 1] domain of gamma: (0, inf)
+ * range of return value: [0, 1]  */
+static inline float gamma_cx(float x, float gamma)
+{
+	// if gamma < 0 and x = 0
+	return powf(x, gamma);
 }
 
 /* Vectors */

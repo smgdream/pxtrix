@@ -1,5 +1,52 @@
+0.2.3-dev
+	1.	Pixel添加hsva类型像素及32位浮点通道的RGBA像素的支持
+	2.	当前将32位浮点通道像素设置为Px_def对应的像素格式以及新增的表示默认RGBA
+		像素格式类型Px_rgba对应的像素格式
+	3.	Pixel添加rgba_hex和rgba_4val函数用于方便的创建一个所需颜色的RGBA像素
+	4.	Pixel添加alpha_blend函数用于alpha混合（当前实现为计算时预乘）
+	5.	Pixel添加px_eq和px_aeq函数用于比较像素（颜色）相等或约等
+	6.	Image组件添加了img_is_empty函数用于测试Image对象是否为空
+	7.	Image添加对线性色彩空间的初步支持
+	8.	Image添加对opRGB（兼容Adobe RGB）, BT.2020, ACEScg等色域的初步支持，
+		并移除了Adobe RGB和DCI-P3色域的支持
+	9.	pic2img现可初步根据src对象的传输函数特性（线性或非线性）进行合适的图像
+		设置
+	10.	完善Pgm模块提供了pgm p5规范近乎完整的支持
+	11.	改进Qoimg模块
+	12.	改进Fbdev模块
+	13.	改进Chart模块，现支持更加细腻明暗表现更好的字符画显示
+	14.	添加pxtrix测试用例组件（tests）并添加test目标和相关文档
+	15.	重写luts模块以支持非离散（丝滑）的色彩映射
+	16.	将构建生成的静态库更改为单一库文件
+	17.	将各个灰度化的默认实现更改为对应BT.709 Y通道的计算公式的实现
+	18.	tools目录重命名为util并将util组件亦编译进库文件中
+	19.	util添加msleep函数用于实现毫秒级睡眠，添加了byteseq2tmpfile用于将字节
+		序列转换为临时文件
+	20.	将与实际图像相关的各附加模块移动到一个新增的文件夹addmods中
+	21.	Render中接受颜色参数的函数的颜色参数类型更改为Px_def
+	22.	Render组件新增函数overlay和flip_h并移除cat函数
+	23.	函数名filp_v更正为flip_v，bezier_curve_c函数重命名为bezier_curve
+	24.	完善Render中多个函数的功能，如scale现在真正支持图像的缩放
+	25.	改进Render组件的其他部分
+	26.	将adj_gamma函数从命名为gamma_cx还调整了参数顺序并将其由render模块移动到
+		tmath模块
+	27.	tmath添加了函数max, min, max3, min3
+	28.	添加DEBUG选项用于控制编译模式
+	29.	更新将pxtrix构建为库时生成的USAGE的内容（markdown）
+	30.	新的主示例（一个Framebuffer时钟程序，编译使用的C版本不同会有不同的效果）
+	31.	将DEVLOG重命名为ChangeLog
+	32.	增强对C99的要求
+	33.	改进对tcc的支持
+	34.	改进makefile
+	35.	将各文件的许可协议说明格式更改为SPDX格式
+	36.	优化pxtrix库的性能
+	37.	调整了文档目录结构
+	38.	移除一些从未被使用的函数和宏以及一些过时代码
+	39.	修订文档
+	40.	修复若干bug（详见ChangeLog）
+	41.	其他若干变更和改进（详见ChangeLog）
 0.2.2-dev
-	1.	正式pxtrix编译为静态库
+	1.	pxtrix编译为静态库成为正式功能
 	2.	为render添加了invert、cat、crop、filp_v
 	3.	tmath添加了线性插值函数和sgn函数并优化了beizer_s函数
 	4.	添加img_info函数用于输出Image对象的信息
@@ -9,8 +56,8 @@
 	8.	移除和更正部分过时的内容和代码
 	9.	添加多线程可交互mandelbrot set查看器示例
 	10.	添加了更多示例代码
-	11.	修复若干bugs（详见DEVLOG）
-	12.	若干其他改进（详见DEVLOG）
+	11.	修复若干bugs（详见ChangeLog）
+	12.	若干其他改进（详见ChangeLog）
 	13.	更新文档
 	Note: filp_v是一个拼写错误的函数名，但可用，在0.2.3中其已更正为正确的名字flip_v
 0.2.1-dev
@@ -25,8 +72,8 @@
 	9.	将*_test重命名为*_valid（详见各模块的文档及dev-intro）
 	10.	将各模块的xxx2xxx分离出来聚集到lib2img中（使用需包含pic2img.h）
 	11.	将lut文件clr_lut_*.lut重命名为lut_*.h
-	12.	若干其他改进（详见DEVLOG）
-	13.	修复若干bug（详见DEVLOG）
+	12.	若干其他改进（详见ChangeLog）
+	13.	修复若干bug（详见ChangeLog）
 	14.	新的示例
 	15.	完善并修正文档
 0.2.0

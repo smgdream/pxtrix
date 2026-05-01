@@ -1,7 +1,7 @@
 # Tiny Mathematics Library
 
 Tiny Mathematics 是一个轻量的数学库。其中定义了一些常用数学常量，数学（结构）类型和数学函数。  
-Attention: tmath.h is not tgmath.h
+ATTENTION: tmath.h is not tgmath.h
 
 ## Usage
 
@@ -20,6 +20,8 @@ Attention: tmath.h is not tgmath.h
 
 ## Type defined
 ```c
+/* tmath.h */
+
 typedef struct vec2 {
 	double x;
 	double y;
@@ -32,10 +34,10 @@ typedef struct vec3 {
 } Vec3;
 ```
 
-## Function and macro
+## Functions and macros
 
 ```c
-// tmath.h
+/* tmath.h */
 
 double polar_x(double r, double t);
 double polar_y(double r, double t);
@@ -55,6 +57,9 @@ double lerp(double a, double b, double t);
 
 /* signum */
 double sgn(double x);
+
+/* Gamma correction */
+float gamma_cx(float x, float gamma);
 ```
 ```c
 /* Vectors function */
@@ -132,7 +137,13 @@ double lerp(double a, double b, double t);
 ```c
 double sgn(double x);
 ```
-实数符号函数。当x非零返回 x / |x|否则返回0  
+实数符号函数。当x非零返回 $x/|x|$否则返回0  
+<br>
+
+```c
+float gamma_cx(float x, float gamma);
+```
+`gamma_cx`伽马校正函数，`gamma`: 伽马值其定义域为(0, inf)，`x`: 输入，`x`的定义域为[0, 1]。返回x<sup>gamma</sup>, 其值域为[0, 1].<!-- 以后本项目的C标准更新到C23后可使用_Generic重写本函数的实现，用以同时支持float类型的输入输出和double类型的输入输出 -->  
 <br>
 
 ### Functions for 2D vector

@@ -1,0 +1,832 @@
+0.1.7
+
+2025-01-08
+	1.	pgm: 完善PGM模块代码
+
+
+0.1.8
+
+2025-01-10
+	1.	调整PGM模块代码
+2025-01-11
+	1.	make: 修改makefile
+	2.	doc: 调整header中的部分描述用词
+	3.	doc: 完善文档中xxx2xxx部分段落的内容
+	4.	doc: 改正文档中已知的少量错误内容
+2025-01-13
+	1.	doc: 编写有关PGM的文档
+	2.	doc: 改正文档中新发现的少量错漏内容
+2025-01-14
+	1.	编写pgm.h的注释
+	2.	doc: 修改文档中的部分内容
+	3.	fix: 修复了bswap.h中缺少的stdint头的包含!
+	4.	修改了img2pgm函数，令其可回调用户自定义的灰度化函数以计算灰度值
+	5.	doc: 修改PGM文档中有关img2pgm的段落
+	6.	doc: 修改了README
+	7.	doc: 修改文档中部分链接与引用形式
+	8.	修改了render中的部分函数名和函数实现*
+	9.	增添实用工具util.h头 (obj_literal用于创建聚合对象字面值)，并将
+		perf归为util的一部分*
+	10.	doc: 为other文档添加新内容
+2025-01-15
+	1.	doc: 编写render组件的文档*
+	2.	doc: 编写render组件中有关LUT的文档
+	3.	doc: 微调部分文档
+	4.	修改render中gray的实现，让其可以使用以用户定义的方式去计算灰度值
+	5.	修改了示例main_mamdb.c的代码
+2025-01-16
+	1.	将*_test函数纳入基本操作函数，并对相关头文件和文档进行修改*
+	2.	make: 轻易地改变c编译器后即可使用新的编译器正常编译程序（对各编译器的
+		支持更加友好）（实际工作：对各makefile进行了修改）*
+	3.	doc: 给README添加与编译相关的内容
+2025-01-17
+	1.	doc: 修正文档和注释中目前发现的错误描述
+	2.	make: 允许编译时通过V参数设置是否显示编译详细信息（实际工作：对各
+		makefile进行了修改）*
+	3.	doc: 补充README的内容
+2025-01-18
+	1.	make: 调整精简信息显示模式下的内容显示
+	2.	doc: 补充README的内容
+	3.	fix:  修复了多线程make可能产生的警告
+	4.	fix: 给各LUT包含了缺失的pixel.h头文件
+2025-01-19
+	1.	fix: 修复了Linux系统中使用tcc可能遇到的编译错误
+	2.	make: 修改makefile
+
+
+0.1.9
+
+2025-01-20
+	1.	fix: 修复编译器为tcc时img_px的x, y为浮点时的出错
+	2.	fix: 补充了image.h缺失的stddef.h
+	3.	补充协议
+	4.	添加了新的示例 (cardioid)
+	5.	修改原有示例
+	6.	make: 修改makefile
+	7.	make: 调整make执行时的信息显示
+2025-01-21
+	1.	doc: 完善文档有关obj_literal的内容
+	2.	重命名示例文件名
+	3.	doc: 调整文档
+	4.	image.h添加了img_px_c函数（用于以图像中心为原点绘制图像）
+	5.	添加轻量数学库tmath.h
+	6.	调整代码（将头文件中对tcc和非tcc处理的部分调换）
+	7.	fix: 修复了img_for_px的x_name的实参不是x时的程序错误
+	8.	修改示例的代码
+2025-01-22
+	1.	fix: 修复了使用tcc编译时img_px可能存在的问题
+	2.	添加tmath.h中的注释
+	3.	添加image.h中有关img_px_c的注释
+	4.	make: 微调makefile
+	5.	doc: 删除other文档
+	6.	doc: 编写tmath的文档
+2025-01-24
+	1.	doc: 修改DEVLOG和CHANGE的内容表述
+	2.	doc: 修改文档
+	3.	doc: 添加文档example.md
+2025-01-25
+	1.	fix: 修复makefile中的一个非致命性问题（STATIC前的一个缺失的export）
+	2.	make: 预留tcc编译基本共用参数TCC_BASE_CFLAGS
+	3.	make: 添加基本共用编译参数BASE_CFLAGS，将共享给submake
+	4.	将所有源文件编译默认优化等级调整为O2
+	5.	doc: 完善example文档
+	6.	微调代码
+2025-01-26
+	1.	fix: 修复部分示例因程序执行时参数数量错误而导致段错误的问题
+	2.	make: 将pxtrix编译为静态库（实验性）
+	3.	doc: 调整README的内容
+	4.	fix: 修复编译时可能存在的 redefinition of typedef warning
+2025-01-27
+	1.	补充有关防止Image重定义的预处理代码段落的注释
+	2.	doc: 添加防止Image重定义开发文档内容
+	3.	doc: 添加libbmp防止Image重定义的说明内容
+	4.	doc: 完善防止Image重定义的说明内容
+	5.	doc: 修改与tmath相关的部分注释和文档
+
+0.2.0
+
+2025-01-28
+	1.	doc: 修正文档
+	2.	微调代码
+	3.	doc: 修正README排版错误
+	4.	make: 添加make help
+	5.	doc: 完善README
+	6.	doc: 补充少量文档内容
+	7.	doc: 将CHANGE重命名为MINORCH
+	8.	doc: 添加CHANGES
+
+0.2.1
+
+2025-01-29
+	1.	doc: 微调README
+	2.	doc: pxtrix.md添加到dev-intro的链接
+	3.	fix: 调整make help令其正确显示
+2025-01-30
+	1.	doc: 微调文档
+2025-01-31
+	1.	fix: 修复在开发中定义了`__LIB*_INSIDE__`又包含了有关头文件还不小心包含了image.h所造成的重定义问题
+	2.	fix: 调整了一些不规范的代码。（虽然可以求得正确的结果）
+	3.	对fbdev的初步支持
+2025-02-01
+	1.	完善fbdev模块
+	2.	tmath二维向量组件开发
+2025-02-02
+	1.	fix: 添加pgm_test缺少的fclose
+	2.	完善fbdev模块
+	3.	改正低级错误
+	4.	tmath二维向量组件开发
+	5.	tmath添加了一次和二次贝塞尔曲线函数
+2025-02-03
+	1.	image添加了img_px_v2
+	2.	贝塞尔测试示例(bezier)
+	3.	tmath添加了三次贝塞尔曲线函数
+	4.	tmath添加了n次贝塞尔曲线函数、阶乘和二项式系数函数
+	5.	fix: 修复fbdev的bug
+	6.	改进fbdev
+2025-02-04
+	1.	fix: 解决了fbdev存在的残留临时文件
+	2.	fix: 补充fb_dev_info.c缺失的__LIBFBDEV_INSIDE__定义
+	3.	添加libca（character art aka ASCII Art）
+2025-02-06
+	1.	fix: 修复ca_px2cart因i类型错误（uint16_t太小了）而导致的字符画显示出错
+	2.	编写libca的ca_set
+	3.	调整libca的代码
+2025-02-07
+	1.	调整libca的实现
+	2.	render添加了缩放(scale)功能
+	3.	img2fb当fb为空白对象时的错误返回
+	4.	fix: 对pgm2img和img2pgm的被转换(src)对象的是否为空白对象的检测和处理
+2025-02-08
+	1.	bmp_test添加了对于非常规bmp文件的检测
+2025-02-09
+	1.	make: 将pxtrix编译为linux so共享库（实验性）
+	2.	make: 调整makefile
+2025-02-10
+	1.	make: 调整makefile
+	2.	研究将pxtrix编译为win dll动态库
+	3.	将各模块中的xxx2xxx分离出来汇聚到一个新模块中(lib2img)
+		取消了__LIB*_INSIDE__和__LIB*_USE_IMAGE__宏
+2025-02-11
+	1.	make: 调整将pxtrix编译为linux so共享库的实现
+	2.	make: 支持将pxtrix编译为win dll动态库（实验性）（不建议使用）
+2025-02-12
+	1.	make: 解决因为makefile目标与依赖之间的问题导致没clean但每次make都重新生成所有文件的问题
+	2.	对chart.c中的代码进行调整
+	3.	doc: 删减文档中有关__LIB*_INSIDE__宏和__LIB*_USE_IMAGE__宏的内容
+2025-02-13
+	1.	重命名tmath的部分数学常量宏 (E->NC: Natural constant, GOLDEN->GOLD)
+	2.	doc: 调整补充文档
+2025-02-14
+	1.	微调render中bin的代码
+	2.	删除tmath中的vec2_cpro函数
+2025-02-15
+	1.	doc: 微调文档
+	2.	为ca_write和__ca_px2cart添加rate参数用于调整图像宽的缩放使得字符画在
+		终端上尽可能准确显示
+	3.	调整__ca_iobuf_size以提高易读性，并避免ca_write和__ca_px2cart的rate
+		范围在(1, 2]时出现崩溃的情况
+	4.	doc: dev-intro更新至0.2.1
+	5.	make: 将编译标识文件c.tmp重命名为.c.tmp
+2025-02-18
+	1.	移除示例r.c并修改相应文档内容
+	2.	添加了一些与时间有关的宏到util.h中
+2025-02-19
+	1.	给所有example补上了pic2img.h
+	2.	删除示例中的部分被注释的代码行
+	3.	将mandb_color.c的实现改为单线程
+	4.	微调部分示例的代码
+	5.	fbdev添加了对3000x2000的fb帧数据文件的支持
+	6.	将各模块用于文件测试的函数*_test重命名为*_valid并修改相关的文档、注释及代码
+	7.	编写fbdev的注释
+	8.	make: 调整对于win的动态库编译
+	9.	fix: 修复不make cleanall再次make lib/so_lib因文件夹已存在造成的编译中断错误
+	10.	make: 调整make lib/so_lib 生成的USAGE文件的格式及内容
+	11.	fix: fb_valid当framebuffer设备/文件无效却执行fclose的问题（不该出现的fclose）
+2025-02-20
+	1.	doc: 调整qoi-spec.md的内容
+	2.	新增pxtrix编译为静态库时使用说明文档(USAGE)的生成
+	3.	fix: make lib/so_lib将perf.c也复制到目标目录(解决了缺少函数定义的报错)
+	4.	make: make lib/so_lib时输出有关生成USAGE的构建信息
+	5.	make: 将pxtrix编译为库时复制LICENSE到目标目录
+2025-02-23
+	1.	将luts中的lut文件的文件名从clr_lut_*.lut改为lut_*.h, 并修改有关的文档及代码。
+	2.	编写chart的注释
+	3.	修改chart中一些过时的注释
+	4.	修改用于辅助编译的临时文件名.c.tmp为.*.tmp, 以便于显示有用的编译信息。
+	5.	调整fbdev的代码
+2025-02-25
+	1.	微调bmpimg.c
+	2.	补充chart.h中的注释
+	3.	doc: 编写fbdev的文档
+2025-02-26
+	1.	补充pic2img.h中的注释
+	2.	doc: 完善fbdev-intro的文档
+	3.	doc: 编写Chart的文档
+2025-02-27
+	1.	doc: 将各文档中xxx2xxx的内容移到新的文档pic2img.md中
+	2.	doc: 调整各文档的内容
+	3.	补充render.h的注释
+	4.	doc: 补充render的文档
+	5.	微调chart.c的代码
+	6.	将tmath的bc函数重命名为bin_coe并添加注释修改相关代码
+2025-02-28
+	1.	将tmath中的vec2_dpro重命名为vec2_spro并修改有关注释
+	2.	添加tmath中的注释
+	3.	doc: 完善tmath文档
+	4.	为新的文件补充协议说明
+	5.	doc: 调整部分文档
+	6.	微调readme内容及makefile
+2025-03-01
+	1.	补充部分文件的协议及信息
+	2.	微调readme
+	3.	为各组件添加有关图像像素排列坐标系的注释
+	4.	doc: 微调pxtrix.md
+	5.	doc: 修改image.md中的部分过时内容
+	6.	doc: 修订部分文档
+	7.	fix: 修复部分版本会出现的共享库文件名问题
+	8.	生成库时将VERSION复制过去
+
+
+0.2.2
+
+2025-03-04
+	1.	将chart.c中的ch_list里的%改正为正确的转义形式%%
+	2.	fix: 修复expamle中bezier绘制时间计算包含了输入数据耗时的问题
+2025-03-05
+	1.	make: 修改count令其只统计.c, .h和makefiel源代码的数据（不包含build和luts）
+	2.	fix: 修复expamle的bezier中的scanf（过时）转换说明错误
+	3.	调整render中的scale函数的参数顺序并在render.h中添加该函数的声明和注释
+		以及补充有关的文档内容
+	4.	微调readme
+	5.	修改make help使其更加实用
+	6.	给与mandelbrot有关的example补充注释并修改文档
+2025-03-13
+	1.	调整lut头文件中的头文件保护宏名(CLR_LUT_* -> LUT_*_H)
+	2.	doc: 修订lut文档
+2025-03-15
+	1.	render添加图像反转（底片）函数invert
+	2.	render添加图像重叠拼接函数cat
+	3.	example添加示例invert.c
+	4.	example添加示例cat.c
+	5.	微调image.h的部分注释
+	6.	render修改scale的接口、形式与实现
+	7.	render添加图像裁剪函数crop
+	8.	example新的test.c（内容完全不同）
+	9.	image添加了用于输出Image对象信息(matedata)的img_info函数并添加有关注释
+	10.	doc: 调整example文档有关test.c的内容
+	11.	doc: 调整render文档有关scale的内容
+	12.	为新的文件添加协议信息
+	13.	为render.h添加注释
+2025-03-16
+	1.	make: make count统计代码行数排除examples中的源文件
+	2.	移除image.h中已经没用了的宏__INCOMPLETE_IMAGE__定义检测
+	3.	微调render.h中的部分注释
+	4.	doc: 修订render文档
+	5.	移除image.h中已过时的__IMAGE_TYPE__宏定义
+	6.	修改与timer_start有关的注释与文档
+2025-03-24
+	1.	tmath增加了用于浮点数和二维向量的线性插值函数lerp和vec2_lerp（可移植）
+	2.	tmath修改了bezier_s的实现（理论上其应当更加高效）
+	3.	完善有关img_info的注释
+2025-05-06
+	1.	doc: 微调readme
+	2.	doc: tmath添加有关*lerp函数的内容
+2025-05-07
+	1.	doc: 改进render文档中对cat函数的描述
+	2.	doc: 微调readme
+2025-05-08
+	1.	doc: 更新pxtrix.md的Pxtrix架构示意图
+2025-05-14
+	1.	render新增filp_v函数用于垂直翻转图像，并微调render.md
+	2.	改进perf.h中的注释
+	3.	将time_step的返回值类型更改为uint64_t并修改头文件和文档中的相关内容
+	4.	fix: 修复因render缺少部分头文件而造成的编译错误
+2025-06-10
+	1.	将有参数为精确宽度整数类型的printf家族的fmt参数中，与精确宽度整数类型对应的转换说明
+		里的转换字符改为宏PRI?N，改进了代码移植性令其在各种机器中可以正确输出数据
+2025-06-23
+	1.	fix: 修复读取无法正常推断fb分辨率的问题（__fb_file_size函数代码写错了，通过cppcheck分析发现）
+2025-07-04
+	1.	将函数名in_mandelbrot重命名为为更合理的nbl2mandelbrot
+	2.	tmath添加sgn函数并添加对应文档说明
+	3.	改进tmath的注释
+2025-07-05
+	1.	fbdev.h中添加枚举fbdev_flags并在文档中添加对应内容
+	2.	doc: 修改fbdev文档中的与fb_new相关的过时内容
+	3.	删除多余的fb_dev_flags枚举
+	4.	新的示例可交互mandelbrot set查看器 （仅linux可用）
+2025-07-06
+	1.	微调rander.c
+	2.	fix: 修复make时MKDOC编译信息输出末尾缺少换行的问题
+	3. 	为可交互mandelbrot set查看器添加多线程支持
+2025-07-07
+	1.	将perf的计时方式调整为基于物理时间的微秒级计时
+	2.	make: 将make的cleanall子命令重命名为distclean并调整相关文档内容
+	3.	取消将pxtrix编译为静态库的实验性状态（pxtrix编译为静态库成为正式功能）
+	4.	微调minorch
+	5.	微调readme
+	6.	将可交互mandelbrot set查看器命名为mandelbrot set viewer
+	7.	完善mandelbrot set viewer
+
+
+0.2.3
+
+2026-02-14
+	1.	添加了HSVA色彩模型的像素的支持
+	2.	tmath增加了max, max3, min, min3取最大最小值函数（宏）
+	3.	新增文件pixel.c，当前其中包含rgba2hsva函数和hsva2rgba函数用于RGBA色彩模型的像素和
+		HSVA色彩模型像素的相互转换
+2026-02-17
+	1.	make: 优化make help帮助信息的显示
+	2.	为struct px_rgba_32bit添加新别名Px_rgba
+	3.	将struct px_hsva重命名为struct px_hsva_float
+	4.	为struct px_hsva_float添加新别名Px_hsva_float和Px_hsva_f
+	5.	fix: 修复rgba2hsva的算法错误
+	6.	fix: 修复hsva2rgba的算法错误
+	7.	doc:添加了Pixel模块相对应的文档
+	8.	为pixel.h和pixel.c添加注释
+	9.	doc: 对与Pxtrix文档和Image文档进行和Pixel文档有关的调整
+	10.	根据BT.709规范修改render默认内置像素灰度化算法gray_px_cal的各通道的映射权重
+2026-02-18
+	1.	fix: 修复当rgba像素色彩为灰阶色彩时rgba2hsva函数将其映射成黑色的映射错误
+	2.	测试了RGBA->HSVA->RGBA转换的色彩微偏率，并在相应文档和注释中增添了相关描述
+	3.	make: 令make distclean命令可删除项目根目录下（不含子目录）所有的exe文件和run文件
+2026-02-20
+	1.	微调代码与注释
+	2.	加强对C99的要求
+	3.	确定polar_r和polar_t函数返回值的范围，并在关联注释和文档中添加相关内容
+	4.	微调main.c
+	5.	规范rgba2hsva函数和hsva2rgba函数的参数类型
+2026-02-21
+	1.	fix: 将错误的函数名filp_v重命名为其正确的名称flip_v
+	2.	doc: 为flip_v函数添加相应的注释和文档内容
+	3.	将adj_gamma函数重命名为gamma_cx
+	4.	doc: 添加gamma_cx函数对应的注释和文档
+2026-02-22
+	1.	make: 调整makefile文件内容
+	2.	make: 调整make构建库时生成的USAGE的内容
+	3.	make: 完善了和Pixel模块相关的makefile配置
+	4.	将doc目录重命名为docs
+	5.	doc: 更正example文档中错误的单词gamut->gamma
+	6.	doc: 调整example文档的内容
+	8.	将之前的main.c纳入examples中并将其重命名为mdb_intact
+	9.	doc: 在example文档中编写有关mdb_intact的内容
+	10.	fix: 将mdb_intact所使用的伽马校正函数名更正为gamma_cx
+	11.	fix: 为mdb_intact的tcall_draw_mandelbrot_line函数补上返回语句
+	12.	fix: 更正mdb_intact错误的色彩映射计算语句
+	13.	fix: mdb_intact重新添加误删的伽马值设置语句
+	14.	微调mdb_intact的注释
+	15.	微调mdb_intact的代码
+	16.	改进pxtrix.md的note部分的内容
+2026-02-23
+	1.	make: 将make clean的行为调整至清理所有构建时产生的文件和最终构建文件
+	2.	make: 调整make clean的输出简略信息的内容
+	3.	make: 更新过时的伪目标名
+	4.	make: 添加outclean伪目标
+	5.	make: 避免重复构建时出现错误提示
+	6.	fix: 修复使用构建而得的动态库出现函数定义缺失的问题
+	7.	make: 删除所有lib*_c伪目标
+	8.	make: 删除部分makefile目标对image.h多余的依赖
+2026-02-24
+	1.	为perf.h添加注释
+	2.	make: 为pic2img的makefile添加pixel.h依赖
+	3.	doc: 调整readme的compile段落的格式和内容并调整排版及调整相关makefile配置
+2026-02-25
+	1.	将一些莫名其妙被删除的内容添加回来。
+	2.	微调部分文件的注释
+2026-02-26
+	1.	给部分framebuffer设备的分辨率添加注释
+	2.	将原来的Dev intro命名为与其内容对应的名字mods devel intro
+	3.	新建了一个addmods目录并将对实际图像文件进行读写编解码的模块移动至该目录
+	4.	make: 按照新的项目目录结构调整makefile配置
+	5.	doc: 编写了真正的简单开发指引文档dev intro
+	6.	doc: 对Pxtrix主文档进行修改
+	7.	make: make dist在打包压缩阶段自动使用fakeroot
+2026-03-02
+	1.	为新增的源文件添加说明协议的注释
+	2.	doc: 为pic2img文档函数详细说明部分进行进一步分段，添加四级标题
+	3.	将img2pgm的灰度化映射权重更改为和BT.709 Y通道一致的权重
+	4.	pic2img.h添加条件包含预处理语句（为pic2img的裁剪编译准备）
+	5.	make: makefile添加缺失的so_lib伪目标说明
+	6.	将示例中的test.c重命名为crop.c
+2026-03-10
+	1.	make: 修改pic2img makefile的错误的DIRNAME值
+	2.	make: 移除makefile AMODS_OBJ多余的lib2img内容
+	3.	fix: 修复make release无法构建的问题
+	4.	make: 移除libca makefile中多余的伪目标
+	5.	make: 将各模块的makefile中的变量DIRNAME重命名为DIRECTORY
+	6.	make: 令各模块makefile的DIRECTORY变量的值通过函数自动获取，使模块更易修改
+2026-03-11
+	1.	doc: 微调文档
+	2.	微调代码
+2026-03-12
+	1.	移除pgm模块对pixel模块的多余依赖
+2026-03-13
+	1.	将DEVLOG重命名为ChangeLog
+	2.	将render中接受颜色参数的函数的颜色参数类型由const Px_def *更改为
+		Px_def，同时据此调整头文件内容和注释以及render文档
+	3.	make: 修复so_lib目标其中一行命令的变量拼写错误导致的非预期的信息显示
+	4.	make: 更正count目标的过时命令
+	5.	根据render的函数变化调整受影响的示例代码
+	6.	微调示例代码
+	7.	更正pixel.h rgba2hsva函数原型与实际函数定义相容但不一致的参数类型
+	8.	为struct px_rgba_32bit添加新类型别名Px_rgba_8888并在文档中添加相应内容
+	9.	Pixel模块添加rgba_4val函数用于通过RGBA 4个值生成相应的Px_rgba值并编写
+		对应的注释和文档
+	10.	将各颜色查找数组（lut）的元素类型更改为Px_rgba
+	11.	移除仅有一个字面值的对象宏的多余的圆括号
+	12.	移除util.h从不使用的宏常量和宏函数
+	13.	make: 移除so_lib为linux生成动态库时生成的USAGE中多余的链接pthread库的内容
+2026-03-21
+	1.	doc: 微调文档
+	2.	添加通道深度为32位浮点的RGBA像素结构struct px_rgba_float32
+	3.	添加alpha_blen函数用于对RGBA像素进行alpha混合（计算时预乘）
+	4.	将类型别名Px_hsva_f重命名为Px_hsva_f32
+	5.	将Px_rgba和Px_def更改为struct px_rgba_float32的类型别名
+	6.	将alpha_blen函数重命名为alpha_blend
+2026-03-22
+	1.	调整rgba_hex函数的内部实现
+	2.	根据Px_rgba的变更调整rgba_4val的代码
+	3.	根据Px_rgba的变更调整rgba2hsva和hsva2rgba函数的实现
+	4.	微调alpha_blend的代码 (至此，根据Px_rgba的变更调整pixel模块的工作完成)
+	5.	fix: 修复flip_v因为没用释放行缓冲区的内存空间导致的内存泄漏问题
+	6.	微调render模块内部函数_row_swap的代码
+	7.	根据Px_def的变更调整bmp2img.c中的代码
+	8.	根据Px_def的变更调整ca2img.c中的代码
+	9.	微调ca2img.c的代码
+	10.	微调fb2img.c的代码
+	11.	根据Px_def的变更调整fb2img.c中的代码
+	12.	微调pgm2img.c的代码
+	13.	根据Px_def的变更调整pgm2img.c中的代码
+	14.	调整pgm2img内部灰度化函数的实现并调整与之关联的代码
+	15.	微调qoi2img.c的代码
+	16.	根据Px_def的变更调整qoi2img.c中的代码(至此，根据Px_def的变更调整pic2img
+		模块的工作完成)
+	17.	根据Px_def的变更调整render模块的代码(至此，根据Px_def的变更调整render
+		模块的工作完成)
+	18.	根据Px_def的变更调整luts模块的代码(至此，根据Px_def的变更调整luts模块
+		的工作完成)
+	19.	改进mandb_color示例的耗时分析格式化输出语句的可移植性
+	20.	改进mandb_thread示例的耗时分析格式化输出语句的可移植性
+	21.	根据Px_def的变更调整各示例的代码(至此，根据Px_def的变更调整各示例的工作
+		完成)
+	22.	fix: 修复了mdb_intac示例的当mandelbrot集中的点的迭代次数等于最大允许迭
+		代次数时，因乘以错误的缩放系数(256)而导致的色彩查找表数组越界访问的问题
+	23.	为pic2img模块的各c文件添加了pic2img.h的头文件包含，令编译器与IDE可以
+		进行更为全面的编译检查
+2026-03-24
+	1.	fix: 修复部分系统编译mdb_intact示例会出现的cfmakeraw函数隐式声明的报错
+	2.	提升了pxtrix的pic2img的转换速度和各附加模块的执行速度
+	3.	fix: 修复了mdb_intact示例屏幕中心指示点错误显示为黑色的问题
+	4.	微调perf.h
+	5.	doc: 微调util.md
+	6.	doc: 微调image.md的部分措辞
+	7.	添加msleep实用函数用于实现毫秒级程序睡眠
+2026-03-25
+	1.	doc: 改进了render文档的部分内容
+	2.	修订render.h中的过时内容
+	3.	将几条奇奇怪怪的宏从render.h移动到唯一使用了这些宏的envelope示例中
+	4.	调整render模块gray函数对a通道的处理，让a值保持原值
+	5.	为render.h的各函数添加说明其返回值的注释
+	6.	为gamma_cx函数添加详细的定义域和值域的注释说明并调整文档的相关内容
+	7.	调整render.h的注释排版
+	8.	修改bin函数的实现及其接口，并据此修改相关的注释及文档
+	9.	为util.c添加版权声明
+	10.	微调image.h的注释
+2026-03-26
+	1.	添加了px_eq函数用于比较两个像素，并编写了相关注释及文档内容
+	2.	doc: 编写了msleep相关的文档
+	3.	doc: 修订util文档
+	4.	doc: 修订了开发指导文档
+	5.	doc：pixel文档更新了色彩偏移有关内容
+2026-03-27
+	1.	doc: 修订Image文档
+	2.	微调pixel.h
+	3.	doc: 修订Pixel文档
+	4.	make: 为lib目标生成出的USAGE的内容中添加了一条编译示例命令
+	5.	doc: 改进tmath文档
+2026-03-28
+	1.	将qoimg.c中一些表意不清的幻数更改为表意更为明确的符号常量（宏）
+	2.	将character art模块的__ca_scale函数的灰度化权重更改为符合ITU-R BT.709-6
+		的权重
+	3.	doc: 修订pxtrix.md文档
+	4.	doc: 修订模块开发指导文档
+	5.	doc: 修订pic2img文档
+	6.	doc: 对各模块intro文档进行简单的规范化的调整
+2026-03-29
+	1.	doc: 微调部分文档
+	2.	doc: 新建了mods文件夹将各模块的文档移入其中，并调整关联链接
+	3.	为Chart模块添加CA_EMPTY宏用于创建或设置空白Chart对象并完善相关函数对该
+		宏的支持
+	4.	完善chart.h的注释及Chart文档
+	5.	make: 添加make选项DEBUG用于控制是否使用调试模式编译
+	6.	doc: 为alpha_blend函数添加注释及相关的文档内容
+	7.	doc: 在readme中添加make DEBUG选项相关内容的简单描述
+	8.	fix: 修复Windows无法通过make dist打包的问题
+2026-03-30
+	1.	将hsva2rgba的函数原型返回类型从Px_def更改为表意更精确的Px_rgba并修改文
+		档的相关内容
+2026-03-31
+	1.	fix: 修复了当HSV像素的H通道值为360时错误地将红色渲染为黑色的问题
+	2.	优化了hsva2rgba的性能（计算耗时减少了约11%）
+	3.	doc: pixel文档和注释添加hsva像素的h通道值为360时的提示
+	4.	添加了Image图像结构对ACES 2065-1色域的初步支持
+	5.	将Render组件的scale函数更改为基于最近邻插值的实现
+	6.	doc: 为Image文档添加了关于空白Image对象的内容
+	7.	微调代码
+	8.	添加UNO_LINEARUNO_NON_LINEAR色域枚举表示未知的色域
+	9.	重新启用QOI的色域枚举和通道类型枚举
+	10.	让qoi2img和img2qoi具有更近一步的对线性色彩空间和非线性色彩空间的支持
+	11.	让qoi_write的写文件语句集中在一块
+	12.	调整qoi_info的信息输出
+	13.	将枚举color_gamut重命名为img_color_gamut
+	14.	doc: 修订Image文档色域相关内容
+	15.	doc: 在img_set相应的文档和注释中添加了关于像素缓冲区分配机制的说明
+	16.	doc: 修订QOI文档和枚举相关的内容
+	17.	优化了qoi2img和img2qoi函数的性能（转换耗时减少了约15%）
+2026-04-01
+	0.	pxtrix已经更新到了最终版本0x39C5BB，以后就不再更新了
+	1.	优化了img2ca函数的性能
+	2.	优化了fb2img和img2fb函数的性能
+	3.	微调pic2img.h中的条件包含指令
+	4.	doc: 根据现今的img2pgm的函数原型调整了pic2img文档的相关内容
+	5.	doc: 修订pic2img文档
+	6.	调整pic2img.h中注释的内容排布
+	7.	将img2pgm的函数指针参数名更改为gris并修改相关注释和文档
+	8.	将render的gray和bin函数的函数指针参数名修改为gris并调整相关的注释和文档
+	9.	调整render.h中注释内容的排布
+	10.	将gamma_cx的计算类型由double更改为float并修改文档中的有关内容
+	11.	调整gamma_cx的参数顺序
+	12.	调整pic2img.h的注释
+	13.	doc: 微调README
+2026-04-02
+	1.	改进了img2qoi对rgb像素的支持并减少了转qoi rgb像素的耗时
+	2.	将struct fbdev的dev_flag成员重命名为dev_type并修改相关代码
+	3.	将fbdev_flags枚举重命名为fbdev_type_set
+	4.	将fb_new和fb_set的dev_flag形参重命名为dev_type
+	5.	fix: 修复了在windows下__fb_dev_info函数执行出错的问题
+	6.	将FB_EMPYT类对象宏更改为带参数宏，使其可以灵活设置fb设备类型
+	7.	doc: 修订fbdev的文档
+	8.	交换alpha_blend的参数顺序并修改相关注释和文档
+	9.	添加了fb_write_stream函数用于不重新打开fb设备输出动画
+	10.	fix: 修复交互mandelbrot集因未调整gamma_cx实参顺序导致的色彩映射错误问题
+2026-04-03
+	1.	添加了qoi_read_stream函数用于直接从文件流中读取qoi数据
+	2.	util添加了byteseq2stream（暂定名）用于将内嵌的文件数据转储到一个临时文
+		件流中并返回该流
+2026-04-04
+	1.	doc: 编写了byteseq2stream的相关文档内容和注释
+	2.	doc: 编写了fb_write_stream的注释和文档内容
+	3.	为qoimg.c添加注释
+	4.	doc: 编写了qoi_read_stream的注释和文档内容
+	5.	在img_px的注释中简单说明了该函数的奇怪行为
+	6.	doc: 为img2fb添加了其对于Fbdev的设备类型为framebuffer设备时的像素缓冲区
+		大小重调整抑制的文档内容和注释
+2026-04-05
+	1.	“微调”hsv和hot的lut
+2026-04-06
+	1.	fix: 修复了pgm和img互转的颜色转换错误
+	2.	fix: 修复了pgm_set对空白Pgm对象free空指针的问题
+	3.	fix: 修复了pgm_set尝试解引用空指针导致的程序崩溃问题
+	4.	fix: 修复了pgm_valid的name实参为空指针时的程序崩溃问题，连带修复了
+		pgm_read的name实参为空指针时的程序崩溃问题
+	5.	完善了pgm模块，对PGM P5规范提供了几乎完整的支持（已支持双字节灰阶，最多
+		65536阶灰阶。已支持非传统标准的2^(8n)阶灰阶表示）
+	6.	make: 添加dist目标对test文件夹的排除
+2026-04-07
+	1.	fix: 修复了img2pgm, gray, __ca_scale的因为ITU-R BT.709-6 Y值计算的RGB
+		权重之和大于1导致的高亮度色彩灰阶计算溢出成黑色的问题
+	2.	将lut_hot那一堆幻数改写成更易于理解的宏
+	3.	doc: 微调render文档
+	4.	doc: 根据pgm的变更添加了相应的注释并对文档进行修订
+	5.	将gamma_cx函数的定义由render.h移动至tmath.h并修改相应的注释和文档
+2026-04-08
+	1.	让bmpimg模块在读取文件时检查读取的数据数量是否符合预期
+	2.	让qoimg模块在读取文件时检查读取的数据数量是否符合预期
+	3.	微调bmp_valid的实现
+	4.	微调qoi_valid的代码
+	5.	让pgm模块在读取文件时检查读取的数据数量是否符合预期
+	6.	让freambuffer模块在读取设备信息时检查读取的数据数量是否符合预期
+2026-04-09
+	1.	微调makefile的注释
+2026-04-10
+	1.	将__fb_dev_info获取framebuffer设备分辨率的实现改进为通过ioctl系统接口
+		获取fb信息结构，以获得framebuffer的分辨率
+	2.	为__fb_dev_info添加了实参合法性检查的代码
+	3.	完善fb_write_stream的实参检查
+	4.	因为大部分framebuffer设备并不处理a通道（将其保留）故fb2img和img2fb不再
+		专门转换各像素的a通道，而将其直接设为1.0或255
+	5.	纠正flip_v头文件注释内容的拼写错误
+	6.	微调示例代码
+2026-04-11
+	1.	将fbdev内部函数_fb_file_size重命名为__fb_file_size将__fb_dev_info重命名为
+		_fb_dev_info
+	2.	将pxtrix编译成库时还会将perf和util组件编译成库
+	3.	添加px_aeq函数用于比较两个像素是否相似并编写了相关的注释和文档
+	4.	添加了3个测试用例
+	5.	make: 添加test目标用于编译并执行测试用例
+	6.	make: 调整makefile dist目标的文件排除列表
+	7.	make: 调整count目标cloc命令的排除目录列表
+2026-04-12
+	1.	为qoimg模块添加了qoi_valid_stream函数用于测试一个流是否是合法的qoi文件
+		数据流，并为其编写了相关的注释和文档
+	2.	在qoi_read_stream的代码中添加了流有效性测试
+	3.	fix: 修复make构建默认目标因找不到需要的对象文件导致的链接错误问题
+	4.	添加了2个测试用例
+	5.	doc: 将各文档中有关*_test的过时函数名修正为新函数名*_valid
+	6.	调整pixel测试用例的部分像素颜色，并为其中的部分颜色设置符号名（宏）
+2026-04-13
+	1.	移除qoi_read的旧实现代码
+	2.	将代码文件头部的协议说明格式更改为SPDX格式
+	3.	为一些代码文件添加了协议说明的内容
+	4.	移除luts.h中的废弃代码
+	5.	给各个makefile添加SPDX格式的协议说明
+	6.	make: 微调test目标的信息输出
+	7.	将pgm2img中的gray_cal函数类型设置为static函数
+	8.	调整各个需要传入命令行参数的测试用例执行时参数不符合要求时的信息输出内容
+	9.	微调一些代码
+	10.	fix: 修复当Fbdev的设备类型为FB_DEVICE且fb的有效坐标范围大于img的有效坐
+		标范围时，img2fb出现越界访问问题导致程序崩溃的情况
+	11.	添加1个pgm测试用例
+	12.	fix: pgmcodec修复在解码双字节灰度数据时，因未正确交换字节序导致解码而得
+		的灰度值错误的问题
+	13.	fix: pgmcodec修复在16位int机器上或为双字节灰度值数值大于32765时出现
+		的灰度值计算错误的问题
+2026-04-14
+	1.	将clr_lut_inferno数组和clr_lut_magma数组更改为const数组
+	2.	两个平滑过度的lut_hot和lut_hsv编写完成
+	3.	移除clr_lut_hot和clr_lut_hsv数组
+	4.	将对inferno和magma LUT的使用更改为通过函数去使用
+	5.	完成luts.h的编写
+	6.	doc: 修订了lut文档
+	7.	根据LUTs模块的变更修改受影响的示例程序
+	8.	pgm测试用例添加一个命令行参数用于指定彩图转灰阶图的灰度化算法
+	9.	添加fb_display_info函数用于获取屏幕分辨率并编写相关的注释和文档内容
+	10.	完善fb_write_stream的注释
+	11.	fix: 修复qoimg示例在读qoi流出错返回前没有关闭流的问题
+	12.	fix: 修复多余的-lrt参数导致tcc编译出错的问题
+	13.	添加一个fbdev测试用例
+2026-04-15
+	1.	为fbdev测试用例编写了测试命令
+	2.	fix: 修复了fbdev测试用例因使用了错误的命令行参数导致无法打开图像的问题
+	3.	将各lut头文件的代码文件头开源协议说明格式更改为SPDX格式
+	4.	将各示例代码文件开源协议说明格式更改为SPDX格式
+	5.	doc: 微调文档
+2026-04-16
+	1.	将tools文档重命名为util（另新建一个tools另做他用）
+	2.	make: 移除lib和so_lib目标复制perf.c的行为
+	3.	fix: 修复make lib so_lib没有复制luts.h的问题
+	4.	将lut_magma和lut_inferno的实现更改为平滑的基于多项式拟合的实现并移除了
+		clr_lut_magma和clr_lut_inferno数组（感谢Andyccr由原始数据拟合出了近似
+		多项式的帮助）
+	5.	doc: 在	README中将Andyccr添加为贡献者
+	6.	交换ca_write fileptr和wid_rate参数的位置
+	7.	修订Chart文档
+2026-04-17
+	1.	添加了一个chart测试用例
+2026-04-18
+	1.	Render组件新增了overlay函数用于代替cat函数用于实现包含透明度的拼贴操作
+		并添加相应的注释和文档
+	2.	fix: 修复chart测试用例使用了错误的argv索引导致段错误的问题
+	3.	fix: 修复了ca_info输出信息遗漏了'\n'导致输出信息格式错误的问题
+2026-04-19
+	1.	将Ca_px_def对应的类型更改为uint8_t
+	2.	依据Ca_px_def实际类型的变更修改了img2ca像素转换的代码
+	3.	重写了ca_write的实现，如今其可以以单个字符为单位更精细的渲染字符画，
+		还使用了更加科学合理的灰度字符序列使得灰阶更加自然
+	4.	make: tests的makefile的fbdev.out目标为最后一张图片的显示之后增加了延时
+	5.	增强了ca_write的参数检查
+	6.	根据Chart最近的变更对调整Chart模块中受变更影响的代码和注释
+2026-04-20
+	1.	doc: 修订模块开发指引文档
+	2.	doc: 在各附加模块文档中添加关于*_new创建的对象的画布默认颜色的说明，
+		并在相应函数原型注释中添加了相关说明
+	3.	Render组件添加了flip_h函数用于水平翻转图像并编写了相关注释和文档
+	4.	Imagae组件添加了img_is_empty函数用于判断一个Image对象是否为空并编写了
+		相关注释和文档
+	5.	改进了Render组件中各函数的参数检查
+	6.	doc: 在各附加模块的文档中添加了有关*_set在更改图像宽高后的画面内容说明，
+		并在相应函数原型的注释中添加了相关说明
+	7.	Image移除了对DCI-P3和ACES2065-1色域的支持，随后添加了对ACEScg色域和
+		BT.2020色域的初步支持，并将色域枚举sRGB重命名为SRGB、Adobe_RGB重命名为
+		OPRGB并修改相关的注释及文档并修改所有受影响的代码
+	8.	doc: 在文档和注释中对img_new和img_set进行了更详细的说明
+2026-04-21
+	1.	line_row和line_col现在以alpha混合的模式绘制线条
+	2.	添加了一个luts测试用例
+	3.	修订了Chart的注释和文档
+	4.	添加了一个render测试用例
+	5.	彻底移除Render组件中过时的cat函数
+	6.	make: 修改count目标统计代码量时排除的目录
+2026-04-22
+	1.	make: 修改lib目标生成的USAGE的内容
+	2.	make: 修改了测试用例引入静态库的方式
+	3.	make: distclean目标添加了清理tests/tmp中图像文件的命令
+	4.	make: 移除Chart和Qoimg makefile的image.h依赖项
+	5.	将pxtrix编译为静态库更改为只生成单一的libpxtrix.a.VERSION静态库文件
+	6.	make: 根据pxtrix最终生成静态库的变更调整tests makefile的库链接参数
+	7.	make: 更正tests makefile存在问题的输出信息格式
+	8.	make: 在outclean目标中添加删除非构建输出目录的*.a.*的命令
+	9.	make: 将构建目录的USAGE由纯文本文件变更为markdown文档
+	10.	将bezier_curve_c函数重命名为bezier_curve并修改相关文档内容
+	11.	make: 改进了tests makefile对windows的支持
+	12.	make: tests makefile如今可通过find命令自动匹配对应模式的测试用例源文件
+		（依赖项），之后即使测试用例源文件编号发生了改变也仍能自动匹配对应的
+		源文件，免除了当测试用例编号发生了大量变动时需协同调整makefile的工夫
+	13.	make: 构建各个模块时不再生成单独的且多余的模块静态库文件
+2026-04-23
+	1.	将Qoimg模块的QOI_GAMUT_sRGB_LA枚举符号名重命名为QOI_GAMUT_SRGB_LA并修
+		改关联代码及文档内容
+	2.	为测试用例render mode0的图层1添加上负片处理
+	3.	make: 调整tests错误的系统相关编译参数顺序
+	4.	fix: 修复了莫名其妙出现的tests qoimg find 匹配模式缺失双引号无法匹配相
+		应文件的问题(经过实际分析和验证确认，当tests目录中存在qoi文件时如果指定
+		模式不使用双引号则无法匹配，简直莫名其妙)
+	5.	微调简略输出信息的内容
+	6.	大大提升了img_copy自赋值的速度（如果出现自赋值的情况直接返回dest）
+	7.	overlay函数添加了dest和src是否为空白Image对象的检查
+	8.	为近几天添加的测试用例添加SPDX协议标识头
+2026-04-24
+	1.	添加一个util测试用例
+	2.	doc: 添加了img2fb特殊情况下图像显示方式的说明
+	3.	make: tests makefile移除了已废弃且无效的ARCHIVE_FILE变量的使用
+	4.	fix: 完善crop函数的参数检查和处理避免了访问非法内存导致的段错误问题
+	5.	fix: 修复了bezier_curve绘制曲线时如果有部分曲线在画布之外出现的非法内存
+		访问段错误问题
+	6.	添加了bezier_curve绘制曲线的alpah混合支持
+	7.	简单调整render示例的图像处理/绘制效果
+	8.	make: tests makefile让测试图源目录通过变量来指示
+	9.	将测试图源文件夹由expect重命名为pictures并修改相关代码和makefile
+	10.	make: 修改make lib过时的编译信息显示
+	11.	fix: 修复了部分示例自身的编译错误和警告
+	12.	fix: 修复了因pxtrix更新导致的示例编译错误的问题
+	13.	make: 调整mdb_intact的makefile
+2026-04-25
+	1.	在byteseq2stream函数的实现中添加有关tmpfile函数在windows中的实现相关的
+		注释
+2026-04-26
+	1.	将byteseq2stream重命名为byteseq2tmpfile，并修改相关代码和文档内容
+	2.	doc: 完善byteseq2tmpfile的注释和文档内容
+	3.	微调util测试用例
+	4.	tests makefile现可根据操作系统为生成的可执行文件设置合适的后缀名
+	5.	fix: 修复了util.c在Windows中使用tcc编译找不到函数声明和未知类型的问题
+	6.	fix: 修复了perf.c在Windows中使用tcc编译找不到函数声明和未知类型的问题
+	7.	fix: 修复了在Windows中使用tcc make test时找不到library m导致的编译
+		中断问题
+	8.	make: 更正了util.o目标错误的文件依赖
+	9.	make: 在不同系统上自动设置默认目标是否静态链接并在readme中添加相关说明
+	10.	fix: 修复了无法构建release目标的bug并改变了release目标的构建方式
+	11.	make: 调整了makefile的些许内容
+	12.	make: 调整模块编译使其仅重新编译发生改变的文件
+	13.	make: 默认信息显示模式下通过sed命令隐藏了编译时可能出现的up to date信息
+	14.	make: 将debug模式下的优化级别调整为Og
+	15.	make: 修改so_lib生成的USAGE的错误内容
+	16.	微调render.c
+	17.	make: 添加对tcc AR工具的支持
+	18.	微调util测试用例的信息输出显示
+	19.	解决了在非UNIX-like系统中编译fbdev示例的警告问题
+	20.	添加了一个新的image测试用例
+	21.	tests makefile新增OUT_DIR变量用于设置图像输出文件夹
+	22.	doc: 在readme中添加关于make test的内容
+	23.	doc: 修订readme
+2026-04-27
+	1.	doc: 编写tests文档
+	2.	doc: 修订开发指引文档
+	3.	doc: 修订文档
+	4.	微调代码
+	5.	微调示例注释
+2026-04-28
+	1.	处理了fbdev测试用例残留的编译警告问题
+	2.	处理了bezier示例的编译警告问题
+	3.	fix: 修复了在不存在framebuffer设备的Linux机器上fbdev测试用例因错误而
+		异常退出的问题，现在其行为被设置为警告并正常退出
+	4.	将fb_display_info函数可用的系统更改为Linux（这才是准确的要求），并修改
+		相关代码、注释及文档内容
+	5.	添加了一个framebuffer时钟程序作为主示例
+	6.	chart测试用例添加了非通用的交互提示信息输出
+2026-04-29
+	1.	调整chart测试用例输出信息的（代码行）位置以避免输出令人误会的信息
+	2.	调整ca_info的输出信息格式，使得输出信息对齐
+	3.	make: test在真正执行测试用例之前删除可能存在旧测试用例可执行文件和
+		旧测试输出图像
+	4.	doc: 修订pixel文档
+	5.	微调mdb_intact实例的ctl.c注释
+2026-04-30
+	1.	让clock主示例在Linux环境中编译使用的C版本小于C23，而后程序开始执行时
+		输出一些额外的提示信息
+	2.	微调fb_display_info出错时的报错信息格式。
+	3.	简单调整render测试用例的图像处理效果
+	4.	make: 移除clean目标的多余命令
+	5.	改进overlay函数令其可以处理从各个坐标（可以为负数）开始的图像重叠并修订
+		文档和注释
+	6.	完善image.h中函数原型的注释
+	7.	pxtrix文档中添加了关于AI辅助项目开发范围的说明
+	8.	在LICENSE和README的Copyright中添加当前年份
+
+
+0.2.4
+
+2026-05-01
+	1.	在clock主示例使用C23编译时使用wraning宏提示用户背景图片的下载链接
+	2.	make: 微调makefile
+	3.	doc: 更新README

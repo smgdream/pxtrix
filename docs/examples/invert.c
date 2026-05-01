@@ -1,5 +1,5 @@
-/* Licensed under the MIT License
- * Copyright (c) 2025 Smgdream */
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2025 Smgdream */
 
 #include <stdio.h>
 #include "bmpimg.h"

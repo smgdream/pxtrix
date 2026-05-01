@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT0
+
 #ifndef CTL_H
 #define CTL_H
 

@@ -4,5 +4,33 @@
 [DONE] 添加adj_gamma函数相关的注释与说明
 [DONE] 深入子目录的文件清理
 [DONE] 重新理清构建各项的依赖关系并据此调整makefile
-将各个图像文件/设备编解码库放进一个库文件夹中？
-为部分fb设备的尺寸添加注释
+[DONE] 为部分fb设备的尺寸添加注释
+[DONE] 为pic2img文档详细说明各图像文件类型添加需要的四级标题
+[DONE] 将各个图像文件/设备编解码库放进一个库文件夹中？
+[DONE] 将render接受颜色作为参数的函数的颜色参数类型由指向像素的的指针变更为像素结构本身
+[DONE] alpha混合支持
+[DONE] 将Px_def更改为struct px_rgba_float32的别名
+[DONE] 因为Px_def对应类型的变更，按以下顺序调整各个模块：pixel, image, pic2img, render, lut, examples
+[DONE] 二值化的新说明
+[DONE] 重新计算rgba to hsva的平均色彩偏移值：0.000002544986904% 约400万分之一
+[DONE] 因为Px_def对应类型的变更，对相关文档进行修订
+[DONE] 完善chart的代码和文档
+[DONE] Image空白对象的文档内容
+[DONE] hsv h:360问题
+[DONE] img2pgm文档调整
+[DONE] 添加fb_write_stream（暂定名）函数用于在不重新打开文件的情况下向一个文件流反复覆写fbdev对象
+[DONE] 添加有关img_px的特殊情况介绍
+[DONE] 确认C11的泛型是否支持内联函数的重载(不支持)
+[DONE] 确定tools/*.c的处置
+[DONE] 像素约等于函数aeq（almost equal to）
+[DONE] 添加make test
+[DONE] 说明当fbdev类型为fb设备时分辨率不同会导致的仅部分像素被转换的情况
+[DONE] 模块构建仅构建修改文件
+[DONE] 因为Px_def对应类型的变更，对所有部分进行全面测试与性能分析
+[DONE] 0.2.3发布前示例全部过编译一遍
+[DONE] test文档
+[DONE] windows环境下的完整测试
+[DONE] 新的main
+[DONE] minorch更新
+[DONE] 图源说明
+[DONE] 0.2.3最后一个开发版（或0.2.4第一个开发版）上传前文件整理及许可协议检查

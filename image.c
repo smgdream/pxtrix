@@ -1,5 +1,5 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +36,7 @@ int img_free(Image *img)
 	if (img->buf != NULL)
 		free(img->buf);
 	free(img);
+	
 	return 0;
 }
 
@@ -74,8 +75,12 @@ Image *img_copy(Image *dest, const Image *src)
 {
 	uint32_t x = 0, y = 0;
 	
-	if (src == NULL || dest == NULL)
+	if (dest == NULL || src == NULL)
 		return NULL;
+	/* without this if statement it also self-copy safe */
+	if (dest == src)
+		return dest;
+
 	if ( dest->width != src->width
 	  || dest->height != src->height
 	  || dest->bpp != src->bpp

@@ -1,5 +1,5 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream */
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
 
 #include <stdio.h>
 #include "image.h"
@@ -11,6 +11,8 @@ int main(int argc, char **argv)
 	Image *img = NULL;
 	Bmpimg *bmp = NULL;
 	uint32_t x, y;
+	if (argc != 2)
+		return 2;
 	
 	if ((img = img_new(IMG_EMPTY)) == NULL)
 		return 1;
@@ -19,10 +21,10 @@ int main(int argc, char **argv)
 	
 	bmp2img(bmp, img);
 	img_for_px(x, y, 0, 15, 256, 1)
-		printf("\t{ %d, %d, %d, %d },\n", img_px(img, x, y)->r
-										, img_px(img, x, y)->g
-										, img_px(img, x, y)->b
-										, img_px(img, x, y)->a);
+		printf("\t{ %0.3f, %0.3f, %0.3f, %0.3f },\n", img_px(img, x, y)->r
+													, img_px(img, x, y)->g
+													, img_px(img, x, y)->b
+													, img_px(img, x, y)->a);
 	
 	img_free(img);
 	bmp_free(bmp);

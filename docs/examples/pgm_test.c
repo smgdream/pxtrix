@@ -1,6 +1,7 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream
- *
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
+
+/*
  * Name: Pxtrix
  * Author: smgdream
  * License: MIT Licnese

@@ -1,6 +1,7 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream
- *
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
+
+/*
  * Name: Pxtrix
  * Author: smgdream
  * License: MIT Licnese
@@ -31,6 +32,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <math.h>
 #include <inttypes.h>
 #include <pthread.h>
@@ -38,9 +40,9 @@
 #include "fbdev.h"
 #include "pic2img.h"
 #include "render.h"
-#include "perf.h"
 #include "luts/lut_magma.h"
 #include "ctl.h"
+#include "util.h"
 
 static unsigned max_it = 256;
 static double gamma_val = 0.0;
@@ -93,6 +95,7 @@ int main(int argc, char **argv)
 {
 	Fbdev *fb = NULL;
 	Image *i = NULL;
+	FILE *framebuffer = NULL; ///////////
 
 	double scaler = 0.001;
 	Complex_t camera_pos = {0, 0};
@@ -104,56 +107,65 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	if ((i = img_new(atoi(argv[1]), atoi(argv[2]), 24, sRGB)) == NULL)
+	if ((i = img_new(atoi(argv[1]), atoi(argv[2]), 24, SRGB)) == NULL)
 		return 1;
 	if ( (fb = fb_new(i->width, i->height, FB_DEVICE)) == NULL)
 		return 2;
+	if ((framebuffer = fopen("/dev/fb0", "wb")) == NULL)
+		return 3; //////////////////
 	gamma_val = atof(argv[3]);
 
 	timer_start(); //////
 
-	char kbact = '\0';
-	for (int exit_flag = 0 ; exit_flag == 0;) {
-		kbact = '\0';
-		if (kbhit())
-			kbact = getch();
+	//char kbact = '\0';
+	for (int exit_flag = -1 ; exit_flag != 1;) {
+		/* clear the value of kbact for each time */
+		//kbact = '\0';
+		
+			//kbact = getch();
+		if (kbhit() || exit_flag == -1) {
+			exit_flag = 0;
+			draw_mandelbrot(i, &camera_pos, scaler);
+			img2fb(i, fb);
 
-		switch (kbact) {
-		case 'w':
-			camera_pos.im += scaler * 10;
-			break;
-		case 's':
-			camera_pos.im -= scaler * 10;
-			break;
-		case 'a':
-			camera_pos.re -= scaler * 10;
-			break;
-		case 'd':
-			camera_pos.re += scaler * 10;
-			break;
-		case '-':
-			scaler *= 1.25892;
-			break;
-		case '=':
-			scaler /= 1.25892;
-			break;
-		case '[':
-			max_it /= (max_it > 1) ? 2 : 1;
-			break;
-		case ']':
-			max_it *= 2;
-			break;
-		case 't':
-			exit_flag = 1;
-			break;
+			fb_write_stream(fb, framebuffer);
+			//fb_write(fb, "/dev/fb0");
+			//fprintf(stdout, "FPS: %d\n", (int) (1000000.0 / time_step()));
+
+			switch (tolower(getch())) {
+			case 'w':
+				camera_pos.im += scaler * 10;
+				break;
+			case 's':
+				camera_pos.im -= scaler * 10;
+				break;
+			case 'a':
+				camera_pos.re -= scaler * 10;
+				break;
+			case 'd':
+				camera_pos.re += scaler * 10;
+				break;
+			case '-':
+				scaler *= 1.25892;
+				break;
+			case '=':
+				scaler /= 1.25892;
+				break;
+			case '[':
+				max_it /= (max_it > 1) ? 2 : 1;
+				break;
+			case ']':
+				max_it *= 2;
+				break;
+			case 't':
+				exit_flag = 1;
+				break;
+			}
 		}
-		draw_mandelbrot(i, &camera_pos, scaler);
-		img2fb(i, fb);
-
-		fb_write(fb, "/dev/fb0");
-		fprintf(stderr, "FPS: %d\n", (int) (1000000.0 / time_step()));
+		msleep(40);
 	}
 
+	fclose(framebuffer);
 	img_free(i);
 	fb_free(fb);
 	return 0;
@@ -172,7 +184,7 @@ int draw_mandelbrot(Image *img, const Complex_t *cam_pos, double scaler)
 {
 	void *tcall_draw_mandelbrot_line(void *ptr);
 
-	Px_def green = {0, 255, 0, 255};
+	Px_def green = {0, 1, 0, 1};
 
 	/* thread init */
 	pthread_t tvec[THREAD_NUM] = {0};
@@ -217,7 +229,7 @@ int draw_mandelbrot_line(Image *img,
 {
 	Complex_t c = {0, 0};
 	int32_t val = 0;
-	size_t inx = 0;
+	float inx = 0;
 	uint32_t wid = img->width;
 	uint32_t hgt = img->height;
 
@@ -227,8 +239,9 @@ int draw_mandelbrot_line(Image *img,
 			c.re = cam_pos->re + ((int32_t)x_it - (int32_t)wid / 2) * scaler;
 			c.im = cam_pos->im + ((int32_t)y_it - (int32_t)hgt / 2) * scaler;
 			val = nbl2mandelbrot(c);
-			inx = (size_t) (gamma_cx(gamma_val, (double) val / max_it) * 256);
-			*img_px(img, x_it, y_it) = clr_lut_magma[inx];
+			/* 0 <= val / max_it <= 1 */
+			inx = gamma_cx((float) val / max_it, gamma_val);
+			*img_px(img, x_it, y_it) = lut_magma(inx);
 		}
 	}
 

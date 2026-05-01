@@ -1,6 +1,7 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream
- *
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
+
+/*
  * Name: Pxtrix
  * Author: smgdream
  * License: MIT Licnese
@@ -12,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <complex.h>
 #include <math.h>
 #include <unistd.h>
@@ -20,6 +22,7 @@
 #include "pic2img.h"
 #include "bmpimg.h"
 #include "qoimg.h"
+#include "luts/lut_magma.h"
 #include "perf.h"
 
 /* -2 <= real <= 2, -2 <= imag <= -2
@@ -27,7 +30,7 @@
 int32_t nbl2mandelbrot(double real, double imag);
 void *draw_the_mdb_line(void *);
 static int max_it = 0;
-static uint64_t img_end_ptr = 0;
+//tatic uint64_t img_end_ptr = 0;
 static double gamm = 0;
 
 struct targ {
@@ -64,7 +67,7 @@ int main(int argc, char **argv)
 	
 	max_it = atoi(argv[1]);
 	gamm = atof(argv[2]);
-	if ((i = img_new(atoi(argv[1]), atoi(argv[1]), 24, sRGB)) == NULL)
+	if ((i = img_new(atoi(argv[1]), atoi(argv[1]), 24, SRGB)) == NULL)
 		return 1;
 	if ((b = bmp_new(BMP_EMPTY)) == NULL)
 		return 2;
@@ -93,7 +96,7 @@ int main(int argc, char **argv)
 
 	img2qoi(i, q);
 	qoi_write(q, "mdb.qoi");
-	printf("Time of qoi out: %u us\n", time_step()); /////////
+	printf("Time of qoi out: %"PRIu64" us\n", time_step()); /////////
 
 	img_free(i);
 	bmp_free(b);
@@ -103,20 +106,17 @@ int main(int argc, char **argv)
 
 void *draw_the_mdb_line(void *ptr)
 {
-	uint64_t tmp = 0;
+	//uint64_t tmp = 0;
 	uint32_t line = ((struct targ *)ptr)->id;
 	Image *img = ((struct targ *)ptr)->img;
 	uint32_t len = max_it;
 
-	int32_t x = 0, y = 0;
+	uint32_t x = 0, y = 0;
 	for (;line < img->height; line += 64)
 		img_for_px(x, y, 0, line, len, 1) {
 			int32_t val = nbl2mandelbrot( (double)(x - ((int64_t)img->width >> 1)) * 4.0 / (double)img->width, (double)(y - ((int64_t)img->height >> 1)) * 4.0 / (double)img->height);
-			uint8_t clr = (val < 0) ? 0 : (uint8_t)(pow((double)val / (double)max_it, gamm) * 255) ;
-			img_px(img, x, y)->r = clr;
-			img_px(img, x, y)->g = clr;
-			img_px(img, x, y)->b = clr;
-			img_px(img, x, y)->a = 255;
+			float clr = (val < 0) ? 0 : (uint8_t)(pow((float)val / (float)max_it, gamm)) ;
+			*img_px(img, x, y) = lut_magma(clr);
 		}
 	end_arr[((struct targ *)ptr)->id] = 1;
 	return NULL;

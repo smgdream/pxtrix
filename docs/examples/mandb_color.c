@@ -1,6 +1,7 @@
-/* Licensed under the MIT License
- * Copyright (c) 2024 Smgdream
- *
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2024 Smgdream */
+
+/*
  * Name: Pxtrix
  * Author: smgdream
  * License: MIT Licnese
@@ -11,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <complex.h>
 #include <math.h>
 #include "image.h"
@@ -38,25 +40,25 @@ int main(int argc, char **argv)
 	}
 
 	max_it = atoi(argv[1]);
-	if ((i = img_new(atoi(argv[1]), atoi(argv[1]), 24, sRGB)) == NULL)
+	if ((i = img_new(atoi(argv[1]), atoi(argv[1]), 24, SRGB)) == NULL)
 		return 1;
 	if ((b = bmp_new(BMP_EMPTY)) == NULL)
 		return 2;
 
 	timer_start(); //////
-	int32_t x = 0, y = 0;
+	uint32_t x = 0, y = 0;
 	img_for_px(x, y, 0, 0, i->width, i->height) {
 		int32_t val = nbl2mandelbrot((double)(x - ((int64_t)i->width >> 1)) * 4.0 / (double)i->width,
 									(double)(y - ((int64_t)i->height >> 1)) * 4.0 / (double)i->height);
-		uint8_t clr = (val < 0) ? 0 : (uint8_t)(pow((double)val / (double)max_it, atof(argv[2])) * 255);
-		*img_px(i, x, y) = clr_lut_magma[clr];
+		float clr = (val < 0) ? 0 : (uint8_t)(pow((double)val / (double)max_it, atof(argv[2])));
+		*img_px(i, x, y) = lut_magma(clr);
 
 	}
 	printf("Time of MDB draw: %.2f s\n", time_step() / 1000000.0); ///////////////
 
 	img2bmp(i, b);
 	bmp_write(b, "mdb.bmp");
-	printf("Time of bmp out: %u us\n", time_step()); /////////
+	printf("Time of bmp out: %"PRIu64" us\n", time_step()); /////////
 
 	img_free(i);
 	bmp_free(b);

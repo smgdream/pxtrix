@@ -1,5 +1,5 @@
-/* Licensed under the MIT License
- * Copyright (c) 2025 Smgdream */
+// SPDX-License-Identifier: MIT
+/* Copyright (c) 2025 Smgdream */
 
 #include <stdio.h>
 #include "bmpimg.h"
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	img0 = img_new(2880, 1620*2, 32, sRGB);
+	img0 = img_new(2880, 1620*2, 32, SRGB);
 	img1 = img_new(IMG_EMPTY);
 	bmp0 = bmp_read(argv[1]);
 	bmp1 = bmp_read(argv[2]);
@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
 	timer_start();
 
 	bmp2img(bmp0, img1);
-	cat(img0, img1, 0, 0);
+	overlay(img0, img1, 0, 0);
 	bmp2img(bmp1, img1);
-	cat(img0, img1, 0, 1620);
+	overlay(img0, img1, 0, 1620);
 	//bmp2img(bmp2, img1); ///
 	//cat(img0, img1, 2048, 2430); ///
 
