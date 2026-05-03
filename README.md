@@ -13,7 +13,7 @@ Copyright (c) 2024–2026 Smgdream
 ## Compile
 
 ```
-Environment Requirements
+Enviroment requirement
 
 C standard: C99
 Compiler: >= gcc-5 or >= tcc-0.28rc (>= clang-3 may also work)
@@ -71,7 +71,7 @@ Delete intermediate files, executables, image files, and the build directory
 (including: *.a, *.o, *.exe, *.png, *.bmp, *.qoi, *.pgm, etc.).
 
 $ make count
-Count lines of code.
+Count lines of code
 
 $ make dist
 Package the pxtrix project (works with the Git-provided tar on Windows).
