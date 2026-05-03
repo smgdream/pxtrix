@@ -1,7 +1,6 @@
 # Pxtrix
 
-[Pxtrix](https://github.com/smgdream/pxtrix) is an image processing and drawing toolkit written in C. The name “Pxtrix” stands for **Pixels Matrix**. It is designed for both image manipulation and rendering tasks.
-
+[Pxtrix](https://github.com/smgdream/pxtrix) is an image processing and drawing toolkit written in C. The name “Pxtrix” stands for **Pixels Matrix**.
 **Author:** [smgdream](https://smgdream.com)  
 **Version:** 0.2.4 dev  
 **Tab width:** four spaces
